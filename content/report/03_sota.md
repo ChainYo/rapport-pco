@@ -76,3 +76,135 @@ respectivement *ARIMA*, *SARIMA* et *VAR*.
 * **Modèles d'apprentissage automatique** : ils regroupent les modèles de régression par amplification de gradient et
 les modèles par apprentissage profond comprenant les réseaux de neurones récurrents et convolutionnels.
 
+Voici une représentation des différents modèles de prédiction :
+
+![Liste non-exhaustive des modèles utilisés pour la prédiction de séries chronologiques. \label {fig:2.2}](/content/assets/timeseries-prediction-models.png)
+
+Nous pourrions également ajouter à cette liste les très récents modèles basés sur l'architecture _Transformers_, comme
+**Temporal Fusion Transformers** (TFT) qui est un modèle de Google qui permet de combiner des données temporelles avec 
+des données non temporelles, des données statiques comme des informations de localisation dans le cas de prédictions 
+météorologiques.
+
+Dans notre projet, nous allons nous concentrer sur les modèles de Machine Learning les plus récents, qui sont les modèles
+de Deep Learning tels que les architectures réseaux de neurones convolutionnels et réseaux de neurones récurrents.
+
+## Réseaux de neurones récurrents (*RNN*)
+
+Les réseaux de neurones récurrents, ou *Recurrent Neural Network*, sont des architectures de neurones qui sont utilisés
+dans beaucoup de cas d'usage. Ils sont appelés réseaux de neurones récurrents car ils sont capables de se réguler en
+fonction de la sortie des neurones précédents. Ils sont notamment utilisés pour la prédiction de séries temporelles, car
+ils permettent de prédire la valeur d'une variable à partir de ses valeurs précédentes. 
+
+### Architecture du réseau de neurones récurrents
+
+Le modèle RNN est donc capable de prédire la valeur d'une variable à partir de ses valeurs précédentes, par le biais
+d'états cachés (en anglais *hidden states*). Ainsi, un modèle RNN prend en entrée des séquences de vectors de données, 
+et non pas des vecteurs de données individuels.
+
+Une architecture traditionnelle d'un RNN se présente comme suit :
+
+![Architecture d'un réseau de neurones récurrents (RNN), stanford.edu \label {fig:2.3}](/content/assets/rnn-architecture.png)
+
+À l'instant *t*, l'activation $a^{<t>}$ d'un neurone est définie par la fonction d'activation suivante :
+
+$$
+a^{<t>} = g_{1}(W_{aa}a^{<t-1>} + W_{ax}x^{<t>} + b_{a})
+$$
+
+et la sortie $y^{<t>}$ est de la forme :
+
+$$
+y^{<t>} = g_{2}(W_{ya}a^{<t>} + b_{y})
+$$
+
+où $W_{ax}$, $W_{aa}$, $W_{ya}$, $b_{a}$ et $b_{y}$ sont des coefficients de poids partagés temporellement entre les
+fonctions d'activation $g_{1}$ et $g_{2}$.
+
+Il est également intéressant de s'intéresser à l'architecture d'une cellule (en anglais *block*) qui compose un réseau 
+de neurones récurrents. Cela permet de comprendre les mécanismes qui ont lieu à chaque étape de la propagation de données 
+dans un réseau RNN. Ce sera également utile dans un second temps pour pouvoir comparer les différences majeures avec des 
+architectures plus intéressantes que celles dites classiques, que nous verrons juste après.
+
+Voici donc une représentation de l'architecture d'une cellule d'un réseau de neurones récurrents :
+
+![Architecture d'une cellule d'un réseau de neurones récurrents (RNN), stanford.edu \label {fig:2.4}](/content/assets/description-block-rnn.png)
+
+Nous pouvons voir que chaque cellule va prendre un état de la donnée précédente, et qu'elle va produire une sortie en
+fonction de son état et de la fonction d'activation associée.
+
+### Avantages et inconvénients
+
+Voici un tableau récapitulatif des avantages et inconvénients d'utiliser ce genre de modélisation :
+
+| Avantages | Inconvénients |
+|-----------|---------------|
+| - Possibilité de traiter une entrée de n'importe quelle longueur  | - Le calcul est plus consommateur en ressources (par rapport à d'autres modèles) |
+| - La taille du modèle n'augmente pas avec la taille de l'entrée   | - Difficulté pour accéder aux informations trop lointaines                       |
+| - Le calcul prend en compte les informations historiques          | - Impossibilité d'envisager une entrée future pour l'état actuel                 |
+| - Les pondérations sont réparties dans le temps                   |                                                                                  |
+<center>Tableau 2.1: Avantages et inconvénients des modèles RNN</center>
+
+Nous pouvons constater que comme attendu lors de l'utilisation de modèles de *Deep Learning*, les modèles RNN sont plus 
+consommateurs en ressources que d'autres modèles de *Machine Learning*. Ils présentent néanmoins des avantages non
+négligeables, en dehors d'un gain de performances, pour notre cas d'usage dans le cadre de la prédiction de séries
+temporelles financières.
+
+### Gestion des gradients
+
+Il existe également un autre inconvénient des modèles RNN qui sont les phénomènes de gradients qui disparaissent et qui
+explosent lors de l'apprentissage. En anglais, on parle de *vanishing gradient* et *exploding gradient*. 
+
+Cela est expliqué par le fait que sur le long terme il est très difficile de capturer les dépendances à cause du gradient 
+multiplicatif qui peut soit décroître, soit augmenter de manière exponentielle en fonction du nombre de couches du modèle.
+
+#### Cas de gradient qui explose
+
+Pour contrer les phénomènes de gradient qui explose, il est possible d'utiliser une technique de *gradient clipping* 
+(en français *coupure de gradient*) qui permet de limiter le gradient à une valeur fixée. Puisque la valeur du gradient 
+est plafonnée les phénomènes néfastes de gradient sont donc maîtrisés en pratique.
+
+![Technique de gradient clipping \label {fig:2.5}](/content/assets/gradient-clipping.png)
+
+Grâce à cette technique, nous pouvons donc éviter que le gradient devienne trop important en le remettant à une échelle
+plus petite.
+
+#### Cas de gradient qui disparaît
+
+Concernant les phénomènes de gradient qui disparaissent, il est possible d'utiliser des *portes* de différents types, 
+souvent notées $Γ$ et sont définies par :
+
+$$
+Γ = σ(Wx^{<t>} + Ua^{<t-1>} + b)
+$$
+
+où $W$, $U$ et $b$ sont des coefficients spécifiques à la porte et $σ$ est une fonction sigmoïde.
+
+Les portes sont utilisées dans les architectures plus spécifiques comme *GRU* et *LSTM* que nous verrons plus tard.
+
+| Type de porte | Rôle | Utilisée dans |
+|---------------|------|---------------|
+| Porte d'actualisation $Γ_{u}$ | Dans quelle mesure le passé devrait être important ? | GRU, LSTM |
+| Porte de pertinence $Γ_{r}$ | Enlever les informations précédentes ? | GRU, LSTM |
+| Porte d'oubli $Γ_{f}$ | Enlever une cellule ? | LSTM |
+| Porte de sortie $Γ_{o}$ | Combien devrait-on révéler d'une cellule ? | LSTM |
+<center>Tableau 2.2: Comparaison des différents types de portes et leurs rôles</center>
+
+Ces différents types de portes permettent de corriger les erreurs de calcul du gradient en fonction de la mesure de
+l'importance du passé, et ainsi de s'affranchir en partie des phénomènes de gradient qui disparaissent. Il est important
+de noter que les portes d'oubli et de sortie sont utilisées uniquement dans les architectures LSTM. GRU dispose donc de
+deux portes, alors que LSTM dispose de quatre portes.
+
+### GRU et LSTM
+
+Nous pouvons distinguer les unités de porte récurrente (en anglais *Gated Recurrent Unit*) (GRU) et les unités de mémoire
+à long/court terme (en anglais *Long Short-Term Memory*) (LSTM). Ces deux architectures sont très similaires et visent
+à atténuer le problème de gradient qui disparaît, rencontré avec les RNNs traditionnels lors de l'apprentissage. *LSTM* 
+peut être vu comme étant une généralisation de *GRU* en utilisant des cellules de mémoire à long ou court terme.
+
+Pour comprendre les différences fondamentales entre les deux architectures, il est nécessaire de regarder en détails les
+différentes équations utilisées par chacune d'elles.
+
+#### Gated Recurrent Unit (GRU)
+
+Comme nous l'avons vu précédemment, l'architecture GRU comporte deux portes : une porte d'actualisation $Γ_{u}$ (en anglais *update gate*) 
+et une porte de pertinence $Γ_{r}$ (en anglais *reset gate*).
