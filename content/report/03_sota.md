@@ -208,3 +208,7 @@ différentes équations utilisées par chacune d'elles.
 
 Comme nous l'avons vu précédemment, l'architecture GRU comporte deux portes : une porte d'actualisation $Γ_{u}$ (en anglais *update gate*) 
 et une porte de pertinence $Γ_{r}$ (en anglais *reset gate*).
+
+Voici l'architecture d'une unité de GRU :
+
+![Architecture d'une unité de GRU \label {fig:2.6}](/content/assets/gru-unit.png)
