@@ -183,10 +183,10 @@ Les portes sont utilisées dans les architectures plus spécifiques comme *GRU* 
 
 | Type de porte | Rôle | Utilisée dans |
 |---------------|------|---------------|
-| Porte d'actualisation $Γ_{u}$ | Dans quelle mesure le passé devrait être important ? | GRU, LSTM |
-| Porte de pertinence $Γ_{r}$ | Enlever les informations précédentes ? | GRU, LSTM |
-| Porte d'oubli $Γ_{f}$ | Enlever une cellule ? | LSTM |
-| Porte de sortie $Γ_{o}$ | Combien devrait-on révéler d'une cellule ? | LSTM |
+| Porte d'actualisation $Γ_{u}$ | Décide si l'état de la cellule doit être mis à jour avec la valeur d'activation en cours | GRU, LSTM |
+| Porte de pertinence $Γ_{r}$ | Décide si l'état de la cellule antérieure est important ou non | GRU, LSTM |
+| Porte d'oubli $Γ_{f}$ | Contrôle la quantité d'information qui est conservé ou oublié de la cellule antérieure | LSTM |
+| Porte de sortie $Γ_{o}$ | Détermine le prochain état caché en contrôlant quelle quantité d'information est libérée par la cellule | LSTM |
 <center>Tableau 2.2: Comparaison des différents types de portes et leurs rôles</center>
 
 Ces différents types de portes permettent de corriger les erreurs de calcul du gradient en fonction de la mesure de
@@ -212,3 +212,28 @@ et une porte de pertinence $Γ_{r}$ (en anglais *reset gate*).
 Voici l'architecture d'une unité de GRU :
 
 ![Architecture d'une unité de GRU \label {fig:2.6}](/content/assets/gru-unit.png)
+
+Il faut discerner trois composantes importantes pour la structure de l'unité de GRU :
+
+* La cellule candidate $c̃^{<t>}$, où $c̃^{<t>} = tanh(W_{c}[Γ_{r} ⋆ a^{t-1}, x^{<t>}] + b_{c})$
+
+* L'état final de la cellule $c^{<t>}$, où $c^{<t>} = Γ_{u} ⋆ c̃^{<t>} + (1 - Γ_{u}) ⋆ c^{t-1}$
+
+    L'état final de la cellule est calculé par la somme des produits de la porte d'actualisation $Γ_{u}$ et de la valeur
+    de la cellule candidate $c̃^{<t>}$ et de l'ineverse de la porte d'actualisation $1 - Γ_{u}$ multiplié par la valeur
+    de l'état final de la cellule antérieure $c^{t-1}$.
+
+    Cet état final de la cellule est donc dépendant de la porte d'actualisation $Γ_{u}$ et peut soit être mis à jour
+    avec la valeur de la cellule candidate $c̃^{<t>}$ ou soit conservé la valeur de l'état final de la cellule antérieure.
+
+* La fonction d'activation $a^{<t>}$, où $a^{<t>} = c^{<t>}$
+
+#### Long Short-Term Memory (LSTM)
+
+Maintenant que nous avons vu plus en détails l'architecture générale des RNNs, ainsi que les particularités de GRU, il
+est temps d'aborder en détails les particularités de l'architecture de LSTM, qui sera l'architecture choisie par le 
+projet final.
+
+En plus des deux portes d'actualisation et de pertinence, LSTM intègre une porte d'oubli $Γ_{f}$ et une porte de sortie $Γ_{o}$.
+
+![Architecture d'une unité de LSTM \label {fig:2.7}](/content/assets/lstm-unit.png)
