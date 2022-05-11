@@ -1,5 +1,5 @@
 \newpage
-# Section 1: Etat de l'art
+# Etat de l'art
 
 Dans cette première section, nous allons décrire les avancées de la modélisation IA et des algorithmes de prédiction
 sur des données temporelles. Ce ne sera malheureusement pas une liste exhaustive de toutes les options disponibles, ni

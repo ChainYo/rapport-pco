@@ -53,7 +53,6 @@ qui est également disponible sur *GitHub* : [Documentation](https://chainyo.git
 
 Le rapport s'organise en 3 grandes parties :
 
-* **Section 1 - Etat de l'art** : présentation des avancées des modélisations IA et des algorithmes de prédiction sur
-des séries temporelles.
-* **Section 2 - Make Us Rich** : présentation et détails de la solution et de son architecture.
-* **Conclusion & Ouverture** : retour sur le projet et ouverture sur les différents axes d'amélioration du projet.
+* **Etat de l'art** : présentation des avancées des modélisations IA et des algorithmes de prédiction sur des séries temporelles.
+* **Make Us Rich** : présentation et détails de la solution et de son architecture.
+* **Conclusion** : retour sur le projet et ouverture sur les différents axes d'amélioration du projet.
