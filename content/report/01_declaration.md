@@ -1,4 +1,4 @@
-# Déclaration
+\newpage
 
 Je, Thomas Chaigneau, de l’école Microsoft IA by Simplon à Brest, en alternance en tant que Développeur IA au Crédit 
 Mutuel Arkéa, confirme que c’est mon propre travail et les figures, les tableaux, les extraits de code et les illustrations 
@@ -11,5 +11,11 @@ Je donne mon consentement a ce qu’une copie de mon rapport soit communiquée a
 Je donne mon consentement pour que mon travail soit rendu plus largement accessible au public avec un intérêt pour 
 l’enseignement, l’apprentissage et la recherche.
 
-Thomas Chaigneau
-April 22, 2022
+*Thomas Chaigneau, April 22, 2022*
+
+---
+
+**Tuteur** : *Jean-Marie Prigent, Machine Learning Engineer @ Crédit Mutuel Arkéa*
+
+Un rapport soumis en réponse aux exigences de la formation *Développeur IA* de l'école *Microsoft IA by Simplon à Brest*
+pour le titre RNCP34757.
