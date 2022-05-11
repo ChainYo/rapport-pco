@@ -290,3 +290,31 @@ la quantité d'information qui est libérée par la cellule. On a donc : $a^{<t>
 la valeur de l'état final de la cellule antérieure $c^{t-1}$. En agissant ainsi, la porte d'oubli permet de réguler la
 quantité d'information retenue de la cellule antérieure. Il y a donc un choix sur ce qui est conservé et oublié. 
 On a ainsi : $c^{<t>} = Γ_{f} ⋆ c^{t-1} + Γ_{f} ⋆ c̃^{<t-1>}$
+
+## L'avènement des modèles Transformers
+
+Le premier papier de recherche qui présente les modèles Transformers est *Attention Is All You Need* [@attention_is_all_you_need],
+présenté en juin 2017. L'objectif initial de ce genre d'architecture, qui vient ajouter un mécanisme d'attention aux
+RNNs, était d'améliorer les performances des modèles existants sur les tâches de traduction en *NLP*.
+
+![Architecture d'un modèle Transformer [@attention_is_all_you_need] \label {fig:2.9}](./content/assets/transformers-architecture.png){ width=200px, height=250px }
+
+Nous ne détaillerons pas ici les différentes composantes de cette architecture, mais ce qu'il faut retenir c'est que par
+l'utilisation d'un encodeur et d'un décodeur, couplés au mécanisme d'attention, il est possible d'entraîner des modèles
+de manière non-supervisée.
+
+L'essor de cette architecture a principalement eu lieu dans le domaine du traitement du langage naturel avec des 
+modèles très célèbres tels que *BERT* [@bert], *GPT-2* [@gpt2] ou encore *T5* [@t5]. Mais aujourd'hui, il existe également
+des applications dans les dommaines de la vision par ordinateur (*Computer Vision*), des séries temporelles (*Time Series*) 
+ou encore dans le traitement du signal audio (*Audio Processing*).
+
+Cette architecture passionnante est en train de devenir un modèle de référence pour énormément de projet de recherche et
+cela dans quasiment tous les domaines du Machine Learning. Nous ne détaillerons pas plus ici puisque nous n'avons pas 
+fait usage de cette architecture dans **Make Us Rich**, et cela nécessiterait un dossier à part entière tellement il
+y a choses à préciser.
+
+---
+
+Maintenant que nous avons un meilleur aperçu des modèles de référence, et des détails de l'architecture des modèles RNN,
+et plus particulièrement des modèles LSTM, nous allons pouvoir présenter le projet **Make Us Rich** qui vise à automatiser
+l'entraînement et le service de modèles LSTM pour de la prédiction sur des données financières.
