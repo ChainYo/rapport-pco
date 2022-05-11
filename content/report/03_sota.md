@@ -43,7 +43,7 @@ l'évolution des cours des marchés financiers.
 C'est ainsi que des méthodes historiques telles que *SARIMA* ou *ARIMA* se sont démocratisées. Elles présentent néanmoins un
 inconvénient : elles nécessitent des données stationnaires pour fonctionner. De plus, ces techniques statistiques dites
 historiques ont des résultats médiocres sur le long terme, et ainsi se sont développés d'autres méthodes d'apprentissage
-automatique utilisant la puissance des réseaux de neurones, comme *RNN* (Recurrent Neural Network).
+automatique utilisant la puissance des réseaux de neurones, comme *RNN* (Recurrent Neural Network) [@rumelhart_1985].
 
 ## Fondamentaux des séries temporelles
 
