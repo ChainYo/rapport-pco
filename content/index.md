@@ -1,14 +1,15 @@
 ---
-title: "Make Us Rich: Outil de prédiction de l'évolution des cours des crypto-monnaies"
+title: "Make Us Rich"
+author: [Thomas Chaigneau]
+subtitle: "Outil de prédiction de l'évolution des cours des crypto-monnaies"
 date: \today
-author: "Thomas Chaigneau"
-bibliography: "bibliography.bib"
-link-citations: true
-urlcolor: "blue"
-csl: "https://raw.githubusercontent.com/citation-style-language/styles/master/harvard-anglia-ruskin-university.csl"
+keywords: [Machine Learning, Crypto-currency, Prediction]
+bibliography: "content/bibliography.bib"
+titlepage: true
+titlepage-rule-color: "F38701"
+titlepage-text-color: "000000"
+toc-own-page: true
+mainfont: "Arial"
+sansfont: "Arial"
+indent: true
 ---
-
-*Tuteur* : Jean-Marie Prigent, Machine Learning Engineer @ Crédit Mutuel Arkéa
-
-Un rapport soumis en réponse aux exigences de la formation *Développeur IA* de l'école Microsoft IA by Simplon à Brest
-pour le titre RNCP34757.
