@@ -69,7 +69,7 @@ Voici une représentation de la décomposition des composantes d'une série temp
 
 ## Différents modèles de prédiction
 
-Nous alons voir ici les différentes techniques et modèles qui existent pour la prédiction à l'aide de données temporelles.
+Nous allons voir ici les différentes techniques et modèles qui existent pour la prédiction à l'aide de données temporelles.
 
 Nous pouvons d'ores et déjà distinguer deux catégories de modèles de prédiction :
 
@@ -122,9 +122,9 @@ temporelles, car ils permettent de prédire la valeur d'une variable à partir d
 
 ### Architecture du réseau de neurones récurrents
 
-Le modèle RNN est donc capable de prédire la valeur d'une variable à partir de ses valeurs précédentes, par le biais
-d'états cachés (en anglais *hidden states*). Ainsi, un modèle RNN prend en entrée des séquences de vectors de données, 
-et non pas des vecteurs de données individuels.
+C'est par le biais d'états cachés (en anglais *hidden states*) qu'un modèle RNN est capable de réaliser la prédiciton 
+d'une variable. Ainsi, un modèle RNN prend en entrée des séquences de vecteurs de données, et non pas des vecteurs de 
+données individuels.
 
 Une architecture traditionnelle d'un RNN se présente comme suit [@stanford_rnn] :
 
@@ -149,8 +149,6 @@ Il est également intéressant de s'intéresser à l'architecture d'une cellule 
 de neurones récurrents. Cela permet de comprendre les mécanismes qui ont lieu à chaque étape de la propagation de données 
 dans un réseau RNN. Ce sera également utile dans un second temps pour pouvoir comparer les différences majeures avec des 
 architectures plus intéressantes que celles dites classiques, que nous verrons juste après.
-
-Voici donc une représentation de l'architecture d'une cellule d'un réseau de neurones récurrents :
 
 ![Architecture d'une cellule d'un réseau de neurones récurrents (RNN) [@stanford_rnn] \label {fig:2.4}](./content/assets/description-block-rnn.png){ width=300px, height=250px }
 
@@ -194,7 +192,7 @@ est plafonnée les phénomènes néfastes de gradient sont donc maîtrisés en p
 Grâce à cette technique, nous pouvons donc éviter que le gradient devienne trop important en le remettant à une échelle
 plus petite.
 
-#### Cas de gradient qui disparaît
+#### Cas de gradient qui disparaît 
 
 Concernant les phénomènes de gradient qui disparaissent, il est possible d'utiliser des *portes* de différents types, 
 souvent notées $Γ$ et sont définies par :
@@ -205,7 +203,7 @@ $$
 
 où $W$, $U$ et $b$ sont des coefficients spécifiques à la porte et $σ$ est une fonction sigmoïde.
 
-Les portes sont utilisées dans les architectures plus spécifiques comme *GRU* et *LSTM* que nous verrons plus tard.
+Les portes sont utilisées dans les architectures plus spécifiques comme *GRU* et *LSTM* que nous verrons juste après.
 
 | Type de porte | Rôle | Utilité |
 |-------------------|--------------------------------|--------|
@@ -220,6 +218,7 @@ l'importance du passé, et ainsi de s'affranchir en partie des phénomènes de g
 de noter que les portes d'oubli et de sortie sont utilisées uniquement dans les architectures LSTM. GRU dispose donc de
 deux portes, alors que LSTM dispose de quatre portes.
 
+\newpage
 ### Fonctions d'activation
 
 Il existe trois fonctions d'activation qui sont utilisées dans les modèles RNN :
@@ -228,7 +227,7 @@ Il existe trois fonctions d'activation qui sont utilisées dans les modèles RNN
 
 *   La *fonction d'activation sigmoïde* représente la fonction de répartition de la loi logistique, souvent utilisée dans 
     les réseaux de neurones, car elle est dérivable.
-*   La *fonction d'activation tanh*, ou *tangente hyperbolique, représente la fonction de répartition de la loi hyperbolique.
+*   La *fonction d'activation tanh*, ou *tangente hyperbolique*, représente la fonction de répartition de la loi hyperbolique.
 *   La *fonction d'activation RELU*, ou *rectified linear unit,* représente la fonction de répartition de la loi linéaire.
 
 Le rôle d'une fonction d'activation est de modifier de manière non-linéaire les valeurs de sortie des neurones, ce qui 
@@ -249,12 +248,11 @@ différentes équations utilisées par chacune d'elles.
 
 #### Gated Recurrent Unit (GRU)
 
+
 Comme nous l'avons vu précédemment, l'architecture GRU comporte deux portes : une porte d'actualisation $Γ_{u}$ (en anglais *update gate*) 
 et une porte de pertinence $Γ_{r}$ (en anglais *reset gate*).
 
-Voici l'architecture d'une unité de GRU :
-
-![Architecture d'une unité de GRU [@stanford_rnn] \label {fig:2.7}](./content/assets/gru-unit.png){ width=300px, height=250px }
+![Architecture d'une unité de GRU [@stanford_rnn] \label {fig:2.7}](./content/assets/gru-unit.png){ width=250px, height=200px }
 
 Il faut discerner trois composantes importantes pour la structure de l'unité de GRU :
 
@@ -263,7 +261,7 @@ Il faut discerner trois composantes importantes pour la structure de l'unité de
 * L'état final de la cellule $c^{<t>}$, où $c^{<t>} = Γ_{u} ⋆ c̃^{<t>} + (1 - Γ_{u}) ⋆ c^{<t-1>}$
 
     L'état final de la cellule est calculé par la somme des produits de la porte d'actualisation $Γ_{u}$ et de la valeur
-    de la cellule candidate $c̃^{<t>}$ et de l'ineverse de la porte d'actualisation $1 - Γ_{u}$ multiplié par la valeur
+    de la cellule candidate $c̃^{<t>}$ et de l'inverse de la porte d'actualisation $1 - Γ_{u}$ multiplié par la valeur
     de l'état final de la cellule antérieure $c^{t-1}$.
 
     Cet état final de la cellule est donc dépendant de la porte d'actualisation $Γ_{u}$ et peut soit être mis à jour
@@ -302,19 +300,21 @@ RNNs, était d'améliorer les performances des modèles existants sur les tâche
 
 Nous ne détaillerons pas ici les différentes composantes de cette architecture, mais ce qu'il faut retenir c'est que par
 l'utilisation d'un encodeur et d'un décodeur, couplés au mécanisme d'attention, il est possible d'entraîner des modèles
-de manière non-supervisée.
+de manière non-supervisée et surtout d'obtenir des performances encore jamais atteintes par les modèles existants. 
+
+L'entraînement de ces modèles de manière non-supervisée est très simple et permet dans un second temps de *finetuner*
+les modèles avec beaucoup moins de données sur des tâches précises. Ainsi, un même modèle de base peut être entraîné
+sur différentes tâches et produire des modèles finaux à la pointe des performances des modèles existants.
 
 L'essor de cette architecture a principalement eu lieu dans le domaine du traitement du langage naturel avec des 
 modèles très célèbres tels que *BERT* [@bert], *GPT-2* [@gpt2] ou encore *T5* [@t5]. Mais aujourd'hui, il existe également
-des applications dans les dommaines de la vision par ordinateur (*Computer Vision*), des séries temporelles (*Time Series*) 
+des applications dans les domaines de la vision par ordinateur (*Computer Vision*), des séries temporelles (*Time Series*) 
 ou encore dans le traitement du signal audio (*Audio Processing*).
 
 Cette architecture passionnante est en train de devenir un modèle de référence pour énormément de projet de recherche et
 cela dans quasiment tous les domaines du Machine Learning. Nous ne détaillerons pas plus ici puisque nous n'avons pas 
 fait usage de cette architecture dans **Make Us Rich**, et cela nécessiterait un dossier à part entière tellement il
 y a choses à préciser.
-
----
 
 Maintenant que nous avons un meilleur aperçu des modèles de référence, et des détails de l'architecture des modèles RNN,
 et plus particulièrement des modèles LSTM, nous allons pouvoir présenter le projet **Make Us Rich** qui vise à automatiser
