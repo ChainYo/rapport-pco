@@ -21,7 +21,8 @@ L'analyse des séries chronologiques consiste à extraire des informations réca
 le comportement futur.
 
 Aucune des techniques ne s'est développée dans le vide ou par intérêt purement théorique. Les innovations dans l'analyse
-des séries chronologiques résultent de nouvelles méthodes de collecte, d'enregistrement et de visualisation des données.
+des séries chronologiques résultent de nouvelles méthodes de collecte, d'enregistrement et de visualisation des 
+données [@nielsen_2019].
 
 Il existe énormément de domaine d'application tels que la médecine, la météorologie, l'astronomie ou encore ce qui va 
 nous intéresser ici, les marchés financiers et notamment celui des crypto-monnaies.
@@ -29,7 +30,7 @@ nous intéresser ici, les marchés financiers et notamment celui des crypto-monn
 Pour revenir à l'aspect historique, les organisations privées et notamment bancaires ont commencé à collecter des données
 par imitation du gouvernement américain qui collectait des données économiques publiques. Les premiers pionniers de
 l'analyse des données chronologiques des cours de la bourse ont fait ce travail mathématique à la main, alors que de nos
-jours ce travail est réalisé avec l'assistance de méthodes analytiques et des algorithmes de machine learning.
+jours ce travail est réalisé avec l'assistance de méthodes analytiques et des algorithmes de machine learning [@nielsen_2019].
 
 Richard Dennis, dans les années 80,  a été le premier à développer un algorithme de prédiction des cours de la bourse qui
 ne comprenait que quelques règles de base, permettant à quiconque les connaissant de prévoir le prix d'une action et d'en
