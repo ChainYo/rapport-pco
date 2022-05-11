@@ -1,3 +1,4 @@
+\newpage
 # Section 1: Etat de l'art
 
 Dans cette première section, nous allons décrire les avancées de la modélisation IA et des algorithmes de prédiction
@@ -63,7 +64,7 @@ qui reste après l'estimation de la tendance et de la saisonnalité, et leur sup
 
 Voici une représentation de la décomposition des composantes d'une série temporelle :
 
-![Graphique présentant la décomposition classique d'un modèle additif d'une série temporelle \label {fig:2.1}](/content/assets/timeseries-decomposition.png)
+![Graphique présentant la décomposition classique d'un modèle additif d'une série temporelle [@tp_timeseries] \label {fig:2.1}](./content/assets/timeseries-decomposition.png){ width=320px, height=300px }
 
 ## Différents modèles de prédiction
 
@@ -73,17 +74,40 @@ Nous pouvons d'ores et déjà distinguer deux catégories de modèles de prédic
 
 * **Modèles statistiques** : dits traditionnels, ils regroupent les modèles univariés et multivariés comprenant
 respectivement *ARIMA*, *SARIMA* et *VAR*.
+
+Un processus stationnaire $X_t$ admet une représentation $ARIMA(p, d, q)$ dite minimale s'il existe une relation [@goude_2020] :
+
+$$
+\Phi(L)(1 - L)^{d}X_{t} = \Theta(L)\epsilon_{t}, \forall_{t} \in Z
+$$
+
+avec pour conditions :
+
+- $\phi_{p} \ne 0$ et $\theta_{q} \ne 0$
+- $\Phi$ et $\Theta$ doivent être des polynômes de degrés respectifs $p$ et $q$, n'ont pas de racines communes et leurs
+    racines sont de modules > 1
+- $\epsilon_{t}$ est un BB de variance $\sigma^2$
+
+De même, un processus stationnaire $X_t$ admet une représentation $SARIMA(p, d, q)$ dite minimale si la relation suivante
+est vraie [@goude_2020] :
+
+$$
+(1 - L)^{d}\Phi_{p}(L)(1 - L^{s})^{D}\Phi_{P}(L^{s})X_{t} = \theta_{q}(L)\theta_{Q}(L{s})\epsilon_{t}, \forall_{t} \in Z
+$$
+
+avec les mêmes conditions que pour les modèles ARIMA.
+
 * **Modèles d'apprentissage automatique** : ils regroupent les modèles de régression par amplification de gradient et
 les modèles par apprentissage profond comprenant les réseaux de neurones récurrents et convolutionnels.
 
 Voici une représentation des différents modèles de prédiction :
 
-![Liste non-exhaustive des modèles utilisés pour la prédiction de séries chronologiques. \label {fig:2.2}](/content/assets/timeseries-prediction-models.png)
+![Liste non-exhaustive des modèles utilisés pour la prédiction de séries chronologiques. \label {fig:2.2}](./content/assets/timeseries-prediction-models.png){ width=200px, height=300px}
 
 Nous pourrions également ajouter à cette liste les très récents modèles basés sur l'architecture _Transformers_, comme
-**Temporal Fusion Transformers** (TFT) qui est un modèle de Google qui permet de combiner des données temporelles avec 
-des données non temporelles, des données statiques comme des informations de localisation dans le cas de prédictions 
-météorologiques.
+**Temporal Fusion Transformers** (TFT) qui est un modèle de Google [@temporal_fusion] qui permet de combiner des données 
+temporelles avec des données non temporelles, des données statiques comme des informations de localisation dans le cas de 
+prédictions météorologiques [@medium_temporal_fusion].
 
 Dans notre projet, nous allons nous concentrer sur les modèles de Machine Learning les plus récents, qui sont les modèles
 de Deep Learning tels que les architectures réseaux de neurones convolutionnels et réseaux de neurones récurrents.
@@ -92,8 +116,8 @@ de Deep Learning tels que les architectures réseaux de neurones convolutionnels
 
 Les réseaux de neurones récurrents, ou *Recurrent Neural Network*, sont des architectures de neurones qui sont utilisés
 dans beaucoup de cas d'usage. Ils sont appelés réseaux de neurones récurrents car ils sont capables de se réguler en
-fonction de la sortie des neurones précédents. Ils sont notamment utilisés pour la prédiction de séries temporelles, car
-ils permettent de prédire la valeur d'une variable à partir de ses valeurs précédentes. 
+fonction de la sortie des neurones précédents [@fund_rnn]. Ils sont notamment utilisés pour la prédiction de séries 
+temporelles, car ils permettent de prédire la valeur d'une variable à partir de ses valeurs précédentes. 
 
 ### Architecture du réseau de neurones récurrents
 
@@ -101,9 +125,9 @@ Le modèle RNN est donc capable de prédire la valeur d'une variable à partir d
 d'états cachés (en anglais *hidden states*). Ainsi, un modèle RNN prend en entrée des séquences de vectors de données, 
 et non pas des vecteurs de données individuels.
 
-Une architecture traditionnelle d'un RNN se présente comme suit :
+Une architecture traditionnelle d'un RNN se présente comme suit [@stanford_rnn] :
 
-![Architecture d'un réseau de neurones récurrents (RNN), stanford.edu \label {fig:2.3}](/content/assets/rnn-architecture.png)
+![Architecture d'un réseau de neurones récurrents (RNN) \label {fig:2.3}](./content/assets/rnn-architecture.png)
 
 À l'instant *t*, l'activation $a^{<t>}$ d'un neurone est définie par la fonction d'activation suivante :
 
@@ -127,14 +151,14 @@ architectures plus intéressantes que celles dites classiques, que nous verrons 
 
 Voici donc une représentation de l'architecture d'une cellule d'un réseau de neurones récurrents :
 
-![Architecture d'une cellule d'un réseau de neurones récurrents (RNN), stanford.edu \label {fig:2.4}](/content/assets/description-block-rnn.png)
+![Architecture d'une cellule d'un réseau de neurones récurrents (RNN) [@stanford_rnn] \label {fig:2.4}](./content/assets/description-block-rnn.png){ width=300px, height=250px }
 
 Nous pouvons voir que chaque cellule va prendre un état de la donnée précédente, et qu'elle va produire une sortie en
 fonction de son état et de la fonction d'activation associée.
 
 ### Avantages et inconvénients
 
-Voici un tableau récapitulatif des avantages et inconvénients d'utiliser ce genre de modélisation :
+Voici un tableau récapitulatif des avantages et inconvénients d'utiliser ce genre de modélisation [@stanford_rnn] :
 
 | Avantages | Inconvénients |
 |-----------|---------------|
@@ -159,11 +183,11 @@ multiplicatif qui peut soit décroître, soit augmenter de manière exponentiell
 
 #### Cas de gradient qui explose
 
-Pour contrer les phénomènes de gradient qui explose, il est possible d'utiliser une technique de *gradient clipping* 
+Pour contrer les phénomènes de gradient qui explose, il est possible d'utiliser une technique de *gradient clipping* [@fund_rnn]
 (en français *coupure de gradient*) qui permet de limiter le gradient à une valeur fixée. Puisque la valeur du gradient 
 est plafonnée les phénomènes néfastes de gradient sont donc maîtrisés en pratique.
 
-![Technique de gradient clipping \label {fig:2.5}](/content/assets/gradient-clipping.png)
+![Technique de gradient clipping \label {fig:2.5}](./content/assets/gradient-clipping.png){ width=100px, height=80px }
 
 Grâce à cette technique, nous pouvons donc éviter que le gradient devienne trop important en le remettant à une échelle
 plus petite.
@@ -181,8 +205,8 @@ où $W$, $U$ et $b$ sont des coefficients spécifiques à la porte et $σ$ est u
 
 Les portes sont utilisées dans les architectures plus spécifiques comme *GRU* et *LSTM* que nous verrons plus tard.
 
-| Type de porte | Rôle | Utilisée dans |
-|---------------|------|---------------|
+| Type de porte | Rôle | Utilité |
+|-------------------|--------------------------------|--------|
 | Porte d'actualisation $Γ_{u}$ | Décide si l'état de la cellule doit être mis à jour avec la valeur d'activation en cours | GRU, LSTM |
 | Porte de pertinence $Γ_{r}$ | Décide si l'état de la cellule antérieure est important ou non | GRU, LSTM |
 | Porte d'oubli $Γ_{f}$ | Contrôle la quantité d'information qui est conservé ou oublié de la cellule antérieure | LSTM |
@@ -211,7 +235,7 @@ et une porte de pertinence $Γ_{r}$ (en anglais *reset gate*).
 
 Voici l'architecture d'une unité de GRU :
 
-![Architecture d'une unité de GRU \label {fig:2.6}](/content/assets/gru-unit.png)
+![Architecture d'une unité de GRU [@stanford_rnn] \label {fig:2.6}](./content/assets/gru-unit.png){ width=300px, height=250px }
 
 Il faut discerner trois composantes importantes pour la structure de l'unité de GRU :
 
@@ -236,4 +260,4 @@ projet final.
 
 En plus des deux portes d'actualisation et de pertinence, LSTM intègre une porte d'oubli $Γ_{f}$ et une porte de sortie $Γ_{o}$.
 
-![Architecture d'une unité de LSTM \label {fig:2.7}](/content/assets/lstm-unit.png)
+![Architecture d'une unité de LSTM [@stanford_rnn] \label {fig:2.7}](./content/assets/lstm-unit.png){ width=300px, height=250px }
