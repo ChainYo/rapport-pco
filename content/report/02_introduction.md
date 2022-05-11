@@ -1,3 +1,4 @@
+\newpage
 # Introduction
 
 ## Contexte
@@ -31,7 +32,7 @@ des crypto-monnaies.
 
 Voici un schéma de l'architecture du projet :
 
-![Architecture du projet Make Us Rich \label {fig:1.1}](/content/assets/project-architecture.png)
+![Architecture du projet Make Us Rich \label {fig:1.1}](./content/assets/project-architecture.png)
 
 Ce schéma très complet reprend tous les composants du projet et présente les différents liens entre eux. Nous détaillerons
 les différents composants et leurs fonctions dans les sections suivantes.
