@@ -51,9 +51,9 @@ tous les composants du projet. Toutes les étapes de déploiement sont détaill�
 
 ## Organisation du rapport
 
-Le rapport s'organise en trois sections :
+Le rapport s'organise en 3 grandes parties :
 
 * **Section 1 - Etat de l'art** : présentation des avancées des modélisations IA et des algorithmes de prédiction sur
 des séries temporelles.
 * **Section 2 - Make Us Rich** : présentation et détails de la solution et de son architecture.
-* **Section 3 - Ouverture** : retour sur le projet et ouverture sur les différents axes d'amélioration du projet.
+* **Conclusion & Ouverture** : retour sur le projet et ouverture sur les différents axes d'amélioration du projet.
