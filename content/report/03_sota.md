@@ -166,7 +166,8 @@ Voici un tableau récapitulatif des avantages et inconvénients d'utiliser ce ge
 | - La taille du modèle n'augmente pas avec la taille de l'entrée   | - Difficulté pour accéder aux informations trop lointaines                       |
 | - Le calcul prend en compte les informations historiques          | - Impossibilité d'envisager une entrée future pour l'état actuel                 |
 | - Les pondérations sont réparties dans le temps                   |                                                                                  |
-<center>Tableau 2.1: Avantages et inconvénients des modèles RNN</center>
+Table: Avantages et inconvénients des modèles RNN \label{tab:2.1}
+
 
 Nous pouvons constater que comme attendu lors de l'utilisation de modèles de *Deep Learning*, les modèles RNN sont plus 
 consommateurs en ressources que d'autres modèles de *Machine Learning*. Ils présentent néanmoins des avantages non
@@ -211,12 +212,29 @@ Les portes sont utilisées dans les architectures plus spécifiques comme *GRU* 
 | Porte de pertinence $Γ_{r}$ | Décide si l'état de la cellule antérieure est important ou non | GRU, LSTM |
 | Porte d'oubli $Γ_{f}$ | Contrôle la quantité d'information qui est conservé ou oublié de la cellule antérieure | LSTM |
 | Porte de sortie $Γ_{o}$ | Détermine le prochain état caché en contrôlant quelle quantité d'information est libérée par la cellule | LSTM |
-<center>Tableau 2.2: Comparaison des différents types de portes et leurs rôles</center>
+Table: Comparaison des différents types de portes et leurs rôles \label{tab:2.2}
 
 Ces différents types de portes permettent de corriger les erreurs de calcul du gradient en fonction de la mesure de
 l'importance du passé, et ainsi de s'affranchir en partie des phénomènes de gradient qui disparaissent. Il est important
 de noter que les portes d'oubli et de sortie sont utilisées uniquement dans les architectures LSTM. GRU dispose donc de
 deux portes, alors que LSTM dispose de quatre portes.
+
+### Fonctions d'activation
+
+Il existe trois fonctions d'activation qui sont utilisées dans les modèles RNN :
+
+![Fonctions d'activation communément utilisées et leurs représentations [@stanford_rnn] \label {fig:2.6}](./content/assets/activation-functions.png){ width=180px, height=200px }
+
+*   La *fonction d'activation sigmoïde* représente la fonction de répartition de la loi logistique, souvent utilisée dans 
+    les réseaux de neurones, car elle est dérivable.
+*   La *fonction d'activation tanh*, ou *tangente hyperbolique, représente la fonction de répartition de la loi hyperbolique.
+*   La *fonction d'activation RELU*, ou *rectified linear unit,* représente la fonction de répartition de la loi linéaire.
+
+Le rôle d'une fonction d'activation est de modifier de manière non-linéaire les valeurs de sortie des neurones, ce qui 
+permet de modifier spatialement leur représentation. Une fonction d'activation est donc définie et spécifique pour chaque 
+couche du réseau de neurones. Il ne faut pas confondre avec les fonctions de *loss* qui sont utilisées pour déterminer
+la qualité de l'apprentissage et sont quant à elles uniques, c'est-à-dire que l'on doit définir une unique fonction de
+loss pour chaque modèle.
 
 ### GRU et LSTM
 
@@ -235,13 +253,13 @@ et une porte de pertinence $Γ_{r}$ (en anglais *reset gate*).
 
 Voici l'architecture d'une unité de GRU :
 
-![Architecture d'une unité de GRU [@stanford_rnn] \label {fig:2.6}](./content/assets/gru-unit.png){ width=300px, height=250px }
+![Architecture d'une unité de GRU [@stanford_rnn] \label {fig:2.7}](./content/assets/gru-unit.png){ width=300px, height=250px }
 
 Il faut discerner trois composantes importantes pour la structure de l'unité de GRU :
 
-* La cellule candidate $c̃^{<t>}$, où $c̃^{<t>} = tanh(W_{c}[Γ_{r} ⋆ a^{t-1}, x^{<t>}] + b_{c})$
+* La cellule candidate $c̃^{<t>}$, où $c̃^{<t>} = tanh(W_{c}[Γ_{r} ⋆ a^{<t-1>}, x^{<t>}] + b_{c})$
 
-* L'état final de la cellule $c^{<t>}$, où $c^{<t>} = Γ_{u} ⋆ c̃^{<t>} + (1 - Γ_{u}) ⋆ c^{t-1}$
+* L'état final de la cellule $c^{<t>}$, où $c^{<t>} = Γ_{u} ⋆ c̃^{<t>} + (1 - Γ_{u}) ⋆ c^{<t-1>}$
 
     L'état final de la cellule est calculé par la somme des produits de la porte d'actualisation $Γ_{u}$ et de la valeur
     de la cellule candidate $c̃^{<t>}$ et de l'ineverse de la porte d'actualisation $1 - Γ_{u}$ multiplié par la valeur
@@ -260,4 +278,15 @@ projet final.
 
 En plus des deux portes d'actualisation et de pertinence, LSTM intègre une porte d'oubli $Γ_{f}$ et une porte de sortie $Γ_{o}$.
 
-![Architecture d'une unité de LSTM [@stanford_rnn] \label {fig:2.7}](./content/assets/lstm-unit.png){ width=300px, height=250px }
+![Architecture d'une unité de LSTM [@stanford_rnn] \label {fig:2.8}](./content/assets/lstm-unit.png){ width=300px, height=250px }
+
+L'architecture LSTM est similaire à l'architecture GRU, mais permet de gérer le problème de gradient qui disparaît. Ainsi,
+aux trois composantes de l'unité de GRU que nous avons vu précédemment, il y a deux différences :
+
+* La fonction d'activation $a^{<t>}$ est désormais multipliée par la porte de sortie $Γ_{o}$, ce qui permet de contrôler
+la quantité d'information qui est libérée par la cellule. On a donc : $a^{<t>} = Γ_{o} ⋆ c^{<t>}$
+
+* L'état final de la cellule $c^{<t>}$ est désormais influencé par la porte d'oubli $Γ_{f}$ qui devient un facteur de 
+la valeur de l'état final de la cellule antérieure $c^{t-1}$. En agissant ainsi, la porte d'oubli permet de réguler la
+quantité d'information retenue de la cellule antérieure. Il y a donc un choix sur ce qui est conservé et oublié. 
+On a ainsi : $c^{<t>} = Γ_{f} ⋆ c^{t-1} + Γ_{f} ⋆ c̃^{<t-1>}$
