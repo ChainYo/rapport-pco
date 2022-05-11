@@ -11,5 +11,5 @@ titlepage-text-color: "000000"
 toc-own-page: true
 mainfont: "Arial"
 sansfont: "Arial"
-indent: true
+table-use-row-colors: true
 ---
