@@ -12,4 +12,5 @@ toc-own-page: true
 mainfont: "Arial"
 sansfont: "Arial"
 table-use-row-colors: true
+code-block-font-size: \scriptsize
 ---
