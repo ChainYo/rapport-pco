@@ -20,9 +20,8 @@ sont disponibles dans les annexes de ce rapport.
 
 ## Les données
 
-TODO : 
-- préparation des données (= feature engineering)
-- formatage des données (= model inputs)
+La récupération de données et la création d'un jeu de données est la première étape d'un projet de *Machine Learning*, voir
+même de *Data Science* en général. C'est une étape qui n'est pas à sous-estimer, car elle va déterminer la réussite de votre projet.
 
 ### Récupération des données
 
