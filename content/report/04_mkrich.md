@@ -15,11 +15,12 @@ C'est donc avant tout un projet de passioné, mais aussi un formidable outil (en
 automatiser, déployer et mettre à disposition des modèles de *Deep Learning*. Sans plus attendre, je vous invite à 
 découvrir plus en détails le projet et son architecture présentée en introduction de ce dossier.
 
+Pour conserver une certaine lisibilité, les différents blocs de code sont numérotés entre paranthèses et leur détails 
+sont disponibles dans les annexes de ce rapport.
+
 ## Les données
 
 TODO : 
-- récupération des données
-- description des données
 - préparation des données (= feature engineering)
 - formatage des données (= model inputs)
 
@@ -69,15 +70,71 @@ simple appel à l'API suffit pour récupérer les nouvelles données utiles à u
 ### Préparation des données
 
 Il est nécessaire de préparer les données pour qu'elles soient utilisables par le modèle. Pour cela, nous allons utiliser
-plusieurs fonctions définies dans l'étape de `preprocessing` de ce projet.
+plusieurs fonctions définies dans l'étape de `preprocessing` de ce projet. C'est à cette étape qu'intervient un choix des
+*features* à utiliser pour l'entraînement du modèle leur *engineering*. Le terme *feature engineering* est un terme 
+désignant les différentes étapes de "rafinement" des données pour qu'elles soient utilisables par le modèle.
 
 #### Extraction des données utiles
 
+Tout d'abord, nous allons extraire les données utiles à partir de la série temporelle grâce à la fonction 
+`extract_features_from_dataset`[(2)]. Pour cela, nous allons utiliser uniquement les colonnes `open`, `high`, `low`, `close` 
+et `timestamp`. Nous stockons également la différence entre la valeur de clôture et la valeur d'ouverture pour chaque 
+intervalle sous le nom `close_change`.
+
+Ainsi à l'issu de cette étape, nous obtenons un nouveau `pandas.DataFrame` qui contient les features spécialement
+sélectionnées pour l'entraînement. Nous n'incluons pas les colonnes relatives aux volumes d'échange et aux trades, car
+ce qui nous intéressera sera la prédiction de la valeur de clôture sur l'intervalle suivant. Il serait néanmoins possible
+d'inclure les notions de volumes dans l'entraînement, mais cela complexifierait le modèle et l'alourdirait pour un gain
+probablement peu significatif.
+
+[(2)]: #annexe-2
+
 #### Séparation des jeux de données
+
+Une fois nos *features* sélectionnées, nous allons séparer les données en trois jeux de données distincts grâce à la 
+fonction `split_data`[(3)]. La séparation consiste à diviser les données en deux jeux de données : 
+
+* `training_set` : 90%
+* `test_set` : 10%
+
+Pour des données temporelles il est important de ne pas mélanger la chronologie des données puisque cela peut créer des 
+problèmes de cohérence. En effet, nous voulons que le modèle puisse prédire les valeurs de clôture sur l'intervalle suivant 
+et non pas sur des intervalles passés.
+
+[(3)]: #annexe-3
 
 #### Mise à l'échelle des données
 
+Il est important de mettre à l'échelle les données pour que le modèle puisse les utiliser correctement. Pour cela, nous
+allons utiliser la fonction `scale_data`[(4)]. Cette fonction va permettre de normaliser les données pour que les données 
+de nos deux jeux de données soient comprises entre -1 et 1. C'est une technique de normalisation qui permet de réduire
+les écarts entre les données et ainsi les rendre plus facile à manipuler par le modèle lors de l'entraînement.
+
+On utilise ici la méthode de normalisation `MinMaxScaler` de la librairie `sklearn`. Il est important de noter que nous
+sauvegardons également cet objet de normalisation dans un fichier pickle pour pouvoir l'utiliser plus tard lors de
+l'inférence via l'API. En effet, puisque le modèle est entraîné sur des données normalisées, il est primordial qu'elles 
+le soient également lors des prédictions postérieures. De plus, nous avons besoin de cet objet pour pouvoir inverser la
+normalisation des données prédites et obtenir des valeurs de clôture réelles, c'est-à-dire des valeurs de clôture non
+normalisées.
+
+[(4)]: #annexe-4
+
 #### Préparation des séquences de données
+
+Il ne reste plus qu'à préparer les données pour qu'elles soient utilisables par le modèle. Pour cela, nous allons devoir
+créer des séquences de données. Pour cela, nous allons utiliser la fonction `create_sequences`[(5)]. Cette fonction va
+utiliser les données préalablement normalisées pour créer des séquences de données de taille `sequence_length`.
+
+C'est à cette étape que nous construisons les *features* d'entrée du modèle et la *target* de sortie, aussi appelé *label*.
+Dans notre cas, nous utiliserons la colonne `close` comme *target* et le reste des colonnes comme *features*.
+
+Il est à noter que nous alons séparer les données du `training_set` en deux séquences de données distinctes pour avoir
+également des séquences de données pour la validation du modèle, grâce à la fonction `split_sequences`[(6)]. Nous utiliserons
+comme taille `val_size=0.2` pour la validation du modèle, ce qui représente 18% des données totales attribuées pour la 
+validation du modèle.
+
+[(5)]: #annexe-5
+[(6)]: #annexe-6
 
 ## Modélisation
 
