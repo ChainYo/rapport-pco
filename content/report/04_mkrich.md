@@ -280,7 +280,7 @@ qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipe
 
 ...
 
-### 🐳 Docker
+### Dockerisation
 
 ...
 
