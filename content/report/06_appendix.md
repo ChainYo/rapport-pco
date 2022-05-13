@@ -49,7 +49,7 @@
 \newpage
 
 ###### Annexe 13
-![Annexe 13](./content/appendix/13.png)
+![Annexe 13](./content/appendix/13.png){height=700px}
 \newpage
 
 ###### Annexe 14

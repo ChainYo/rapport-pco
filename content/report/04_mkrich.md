@@ -77,7 +77,7 @@ désignant les différentes étapes de *raffinage* des données pour qu'elles so
 #### Extraction des données utiles
 
 Tout d'abord, nous allons extraire les données utiles à partir de la série temporelle grâce à la fonction 
-`extract_features_from_dataset`[(2)]. Pour cela, nous allons utiliser uniquement les colonnes `open`, `high`, `low`, `close` 
+`extract_features_from_dataset()`[(2)]. Pour cela, nous allons utiliser uniquement les colonnes `open`, `high`, `low`, `close` 
 et `timestamp`. Nous stockons également la différence entre la valeur de clôture et la valeur d'ouverture pour chaque 
 intervalle sous le nom `close_change`.
 
@@ -92,7 +92,7 @@ potentiel à déterminer.
 #### Séparation des jeux de données
 
 Une fois nos *features* sélectionnées, nous allons séparer les données en trois jeux de données distincts grâce à la 
-fonction `split_data`[(3)]. La séparation consiste à diviser les données en deux jeux de données : 
+fonction `split_data()`[(3)]. La séparation consiste à diviser les données en deux jeux de données : 
 
 * `training_set` : 90%
 * `test_set` : 10%
@@ -106,7 +106,7 @@ et non pas sur des intervalles passés.
 #### Mise à l'échelle des données
 
 Il est important de mettre à l'échelle les données pour que le modèle puisse les utiliser correctement. Pour cela, nous
-allons utiliser la fonction `scale_data`[(4)]. Cette fonction va permettre de normaliser les données pour qu'elles soient
+allons utiliser la fonction `scale_data()`[(4)]. Cette fonction va permettre de normaliser les données pour qu'elles soient
 comprises entre -1 et 1 pour nos deux jeux de données. C'est une technique de normalisation qui permet de réduire
 les écarts entre les données et ainsi les rendre plus facile à manipuler par le modèle lors de l'entraînement.
 
@@ -122,14 +122,14 @@ normalisées.
 #### Préparation des séquences de données
 
 Il ne reste plus qu'à préparer les données pour qu'elles soient utilisables par le modèle. Pour cela, nous allons devoir
-créer des séquences de données. Pour cela, nous allons utiliser la fonction `create_sequences`[(5)]. Cette fonction va
+créer des séquences de données. Pour cela, nous allons utiliser la fonction `create_sequences()`[(5)]. Cette fonction va
 utiliser les données préalablement normalisées pour créer des séquences de données de taille `sequence_length`.
 
 C'est à cette étape que nous construisons les *features* d'entrée du modèle et la *target* de sortie, aussi appelé *label*.
 Dans notre cas, nous utiliserons la colonne `close` comme *target* et le reste des colonnes comme *features*.
 
 Il est à noter que nous allons séparer les données du `training_set` en deux séquences de données distinctes pour avoir
-également des séquences de données pour la validation du modèle, grâce à la fonction `split_train_and_val_sequences`[(6)]. 
+également des séquences de données pour la validation du modèle, grâce à la fonction `split_train_and_val_sequences()`[(6)]. 
 Nous utiliserons comme taille `val_size=0.2` pour la validation du modèle, ce qui représente 18% des données totales 
 attribuées pour la validation du modèle.
 
@@ -198,7 +198,7 @@ training:
 
 ### Entraînements et monitoring
 
-L'entraînement du modèle se fait via la méthode `training_loop`[(11)] qui instancie les classes : `LSTMDataLoader`, 
+L'entraînement du modèle se fait via la méthode `training_loop()`[(11)] qui instancie les classes : `LSTMDataLoader`, 
 `PricePredictor` utilisées par `Trainer` qui est la classe `Trainer` de *PyTorch-Lightning* qui gère l'entraînement.
 
 Nous utilisons une *seed* pour figer l'aléatoire du modèle, via la fonction `seed_everything` de la librairie 
@@ -227,11 +227,50 @@ directement sur *Wandb*[(12)].
 
 ### Validation du modèle
 
+La validation du modèle se fait en vérifiant que la moyenne de la valeur de *loss* de validation et celle de test est bien
+inférieure à une certaine valeur. Cette partie est assez légère et mériterait un ajustement dans notre pipeline d'entraînement
+automatique. L'architecture du modèle permet néanmoins d'obtenir des résultats satisfaisants qui sont directement observables
+et comparables sur l'interface de *Wandb*. 
+
+On peut constater tout de même que le taux d'erreur sur les données de validation est vraiment très faible, et il est 
+meilleur que le taux d'erreur sur les données de test. En effet, plus on s'éloigne dans le temps des données d'entraînement,
+et plus la précision du modèle diminue et donc plus le taux d'erreur, la *loss*, augmente.
+
 ### Conversion vers ONNX
+
+Nous avons fait le choix d'inclure une étape de conversion automatique du modèle en *ONNX* afin de faciliter la prise en
+charge de ce modèle par d'autres applications et également un optimisation du temps d'inférence lors du service des modèles
+via *API*.
+
+En effet le format *ONNX* (*Open Neural Network Exchange*) est un format de représentation de modèle standardisé qui permet, 
+notamment sur *CPU*, de réduire les temps de calcul des modèles [@chaigneau_2022]. C'est via deux fonctions que nous allons 
+pouvoir convertir le modèle en *ONNX* et valider que le modèle converti est conforme au modèle original, surtout au 
+niveau de la précision des prédictions. 
+
+La première fonction `convert_model()`[(13)] permet la conversion du modèle en *ONNX* et son stockage avant validation. 
+La seconde fonction `validate_model()`[(14)] assure que le modèle converti est valable d'un point de vue architecture et 
+noeuds des graphiques, ainsi qu'au niveau de la précision par rapport au modèle *PyTorch* original. La différence entre 
+les deux prédictions doit respecter une tolérance absolue de $10^{-5}$ et une tolérance relative de $10^{-3}$.
+
+[(13)]: #annexe-13
+[(14)]: #annexe-14
 
 ### Stockage des modèles et des features engineering
 
+Il ne nous reste plus qu'à stocker les modèles et les features engineering dans une base de données. Vu les données que
+nous souhaitons conserver, c'est une base de données orientée vers le stockage objet que nous utiliserons, tel que *AWS S3*,
+*Google Cloud Storage* ou *Azure Blob Storage*. Dans notre cas, nous utilisons *Minio* pour stocker nos données, car c'est
+l'équivalent de *AWS S3* mais hébergeable n'importe où sur le web ou en local.
 
+C'est grâce à la fonction `upload_files()`[(15)] que nous allons pouvoir stocker nos modèles et les features engineering qui
+sont associées dans un répertoire unique de notre base de données. Ainsi, ils seront accessibles par la suite par l'API
+pour leur utilisation.
+
+Enfin, afin de s'assurer que les fichiers générés par l'entraînement d'un modèle et permettre de conserver de l'espace 
+disque sur la machine qui réalise l'entraînement, nous utilisons une fonction de nettoyage de tous les fichiers locaux 
+qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipeline nommée `clean_files()`[(16)].
+
+[(15)]: #annexe-15
 
 ## Service des modèles
 
