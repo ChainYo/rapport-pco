@@ -274,10 +274,27 @@ qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipe
 
 ## Service des modèles
 
-TODO :
-- contexte global sur serving de modèles (docker, kubernetes, ...)
-- présentation API REST
-- détails des endpoints de l'API REST
+...
+
+### Qu'est-ce-que servir des modèles
+
+...
+
+### 🐳 Docker
+
+...
+
+### Présentation de l'API
+
+...
+
+#### Gestion des modèles
+
+...
+
+#### Les endpoints de l'API
+
+...
 
 ## Interface utilisateur
 
