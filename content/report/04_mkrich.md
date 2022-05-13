@@ -146,7 +146,7 @@ du code *PyTorch*, ce qui va nous aider pour le déploiement et le service de no
 
 ### Définition de l'architecture du modèle
 
-Nous allons commencer par décrire l'architecture du modèle qui se compose de deux parties :
+Nous allons commencer par décrire l'architecture du modèle qui se compose de deux parties complémentaires :
 
 * Un premier module `LSTMRegressor`[(7)] qui définit la structure du modèle, les hyperparamètres, ainsi que les différentes
 étapes d'inférence via un `nn.Module` de *PyTorch*.
@@ -168,7 +168,62 @@ batchs de données lors des différentes phases d'entraînement, validation et t
 
 ### Choix des hyperparamètres
 
+Les hyperparamètres utilisés pour l'entraînement de notre modèle ne sont pas définis dans le code, mais dans un fichier
+de configuration à part. Cela permet de faciliter la modification des hyperparamètres du modèle et de faciliter le
+re-entraînement du modèle si besoin. Ils sont donc définis dans un fichier `/conf/base/parameters.yaml` où se trouvent
+également les paramètres de *fetching* et *preprocessing* des données. 
+
+Ce fonctionnement est important puisqu'il permet d'harmoniser le déroulement du pipeline complet. Ainsi, nous n'avons plus
+besoin de toucher aux fichiers de code pour tester des nouveaux hyperparamètres, de même si nous voulons augmenter la 
+taille des séquences de données.
+
+Voici la liste des hyperparamètres retenus et utilisés pour l'entraînement des modèles :
+
+```yml
+training:
+  train_batch_size: 64
+  val_batch_size: 1
+  train_workers: 2
+  val_workers: 1
+  max_epochs: 100
+  hidden_size: 128
+  number_of_features: 9
+  number_of_layers: 2
+  dropout_rate: 0.2
+  learning_rate: 1e-4
+  log_n_steps: 2
+  run_on_gpu: True # False if running on CPU
+  wandb_project: "make-us-rich"
+```
+
 ### Entraînements et monitoring
+
+L'entraînement du modèle se fait via la méthode `training_loop`[(11)] qui instancie les classes : `LSTMDataLoader`, 
+`PricePredictor` utilisées par `Trainer` qui est la classe `Trainer` de *PyTorch-Lightning* qui gère l'entraînement.
+
+Nous utilisons une *seed* pour figer l'aléatoire du modèle, via la fonction `seed_everything` de la librairie 
+*PyTorch-Lightning*, afin de pouvoir reproduire les résultats du modèle si besoin. Nous définissons également deux
+*callbacks* :
+
+* `ModelCheckpoint()` qui va permettre de sauvegarder les poids du modèle à chaque *epoch* et de conserver uniquement
+    les poids les plus performants.
+* `EarlyStopping()` qui va permettre de stopper l'entraînement du modèle si le modèle n'a pas progressé depuis un certain
+    nombre d'*epochs*. Ici, nous utilisons un *patience* de 2 *epochs*.
+
+Dans les deux cas, nous utilisons les valeurs de *loss* de validation, que l'on cherche à minimiser, pour déterminer les
+poids les plus performants et s'il faut continuer ou stopper l'entraînement.
+
+En ce qui concerne le *monitoring* et le *logging*, nous utilisons la classe `WandbLogger` de *Wandb* incluse dans la
+librairie *PyTorch-Lightning* qui va nous permettre de stocker les hyperparamètres, l'environnement et toutes les métriques
+de notre modèle directement sur *Wandb*.
+
+*Wandb* est un outil de monitoring qui permet de stocker l'historique des entraînements de nos modèles et de comparer les
+différents modèles. C'est cette plateforme que nous avons privilégié pour l'expérimentation et le monitoring de nos modèles.
+J'ai donc créé un projet sur *Wandb* pour *Make-Us-Rich* et connecté le pipeline d'entraînement pour que tout soit stocké
+directement sur *Wandb*[(12)].
+
+[(11)]: #annexe-11
+[(12)]: #annexe-12
 
 ### Validation du modèle
 
