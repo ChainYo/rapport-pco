@@ -8,7 +8,7 @@ qui soient aussi efficaces et fiables.
 
 Étant passionné par le *Deep Learning* et surveillant d'un oeil positif l'évolution des crypto-monnaies, j'ai souhaité
 créer un outil permettant de lier les deux. En plus de créer cet outil de prédiction, j'ai voulu aller plus loin et 
-développer le projet pour un faire une base solide à déployer pour quiconque souhaiterait comprendre les enjeux du 
+développer le projet pour en faire une base solide à déployer pour quiconque souhaiterait comprendre les enjeux du 
 déploiement de modèles de *Deep Learning* et les outils d'automatisation et de supervision des modèles.
 
 C'est donc avant tout un projet de passioné, mais aussi un formidable outil (en tous cas je l'espère) pour apprendre à
@@ -20,8 +20,9 @@ sont disponibles dans les annexes de ce rapport.
 
 ## Les données
 
-La récupération de données et la création d'un jeu de données est la première étape d'un projet de *Machine Learning*, voir
-même de *Data Science* en général. C'est une étape qui n'est pas à sous-estimer, car elle va déterminer la réussite de votre projet.
+La récupération de données et la création d'un jeu de données est la première étape d'un projet de *Machine Learning*, 
+voir même de *Data Science* en général. C'est une étape qui n'est pas à sous-estimer, car elle va déterminer la réussite 
+de votre projet.
 
 ### Récupération des données
 
@@ -42,7 +43,7 @@ monnaie et une monnaie de comparaison dans tous les cas et renvoient les donnée
 ### Description des données
 
 Les données récupérées sont des séries temporelles de la crypto-monnaie cible comparée à une monnaie. Par exemple, je peux
-récupérer les données de la crypto-monnaie *BTC* par rapport à la monnaie *EUR* sur les 5 dernières jours avec une intervalle
+récupérer les données de la crypto-monnaie *BTC* par rapport à la monnaie *EUR* sur les 5 dernières jours avec un intervalle
 de 1 heure. 
 
 On compte 12 colonnes de données :
@@ -70,8 +71,8 @@ simple appel à l'API suffit pour récupérer les nouvelles données utiles à u
 
 Il est nécessaire de préparer les données pour qu'elles soient utilisables par le modèle. Pour cela, nous allons utiliser
 plusieurs fonctions définies dans l'étape de `preprocessing` de ce projet. C'est à cette étape qu'intervient un choix des
-*features* à utiliser pour l'entraînement du modèle leur *engineering*. Le terme *feature engineering* est un terme 
-désignant les différentes étapes de "rafinement" des données pour qu'elles soient utilisables par le modèle.
+*features* à utiliser pour l'entraînement du modèle et leur *engineering*. Le terme *feature engineering* est un terme 
+désignant les différentes étapes de *raffinage* des données pour qu'elles soient utilisables par le modèle.
 
 #### Extraction des données utiles
 
@@ -82,9 +83,9 @@ intervalle sous le nom `close_change`.
 
 Ainsi à l'issu de cette étape, nous obtenons un nouveau `pandas.DataFrame` qui contient les features spécialement
 sélectionnées pour l'entraînement. Nous n'incluons pas les colonnes relatives aux volumes d'échange et aux trades, car
-ce qui nous intéressera sera la prédiction de la valeur de clôture sur l'intervalle suivant. Il serait néanmoins possible
+c'est la prédiction de la valeur de clôture sur l'intervalle suivant qui nous intéresse ici. Il serait néanmoins possible
 d'inclure les notions de volumes dans l'entraînement, mais cela complexifierait le modèle et l'alourdirait pour un gain
-probablement peu significatif.
+potentiel à déterminer.
 
 [(2)]: #annexe-2
 
@@ -105,8 +106,8 @@ et non pas sur des intervalles passés.
 #### Mise à l'échelle des données
 
 Il est important de mettre à l'échelle les données pour que le modèle puisse les utiliser correctement. Pour cela, nous
-allons utiliser la fonction `scale_data`[(4)]. Cette fonction va permettre de normaliser les données pour que les données 
-de nos deux jeux de données soient comprises entre -1 et 1. C'est une technique de normalisation qui permet de réduire
+allons utiliser la fonction `scale_data`[(4)]. Cette fonction va permettre de normaliser les données pour qu'elles soient
+comprises entre -1 et 1 pour nos deux jeux de données. C'est une technique de normalisation qui permet de réduire
 les écarts entre les données et ainsi les rendre plus facile à manipuler par le modèle lors de l'entraînement.
 
 On utilise ici la méthode de normalisation `MinMaxScaler` de la librairie `sklearn`. Il est important de noter que nous
@@ -127,24 +128,55 @@ utiliser les données préalablement normalisées pour créer des séquences de 
 C'est à cette étape que nous construisons les *features* d'entrée du modèle et la *target* de sortie, aussi appelé *label*.
 Dans notre cas, nous utiliserons la colonne `close` comme *target* et le reste des colonnes comme *features*.
 
-Il est à noter que nous alons séparer les données du `training_set` en deux séquences de données distinctes pour avoir
-également des séquences de données pour la validation du modèle, grâce à la fonction `split_sequences`[(6)]. Nous utiliserons
-comme taille `val_size=0.2` pour la validation du modèle, ce qui représente 18% des données totales attribuées pour la 
-validation du modèle.
+Il est à noter que nous allons séparer les données du `training_set` en deux séquences de données distinctes pour avoir
+également des séquences de données pour la validation du modèle, grâce à la fonction `split_train_and_val_sequences`[(6)]. 
+Nous utiliserons comme taille `val_size=0.2` pour la validation du modèle, ce qui représente 18% des données totales 
+attribuées pour la validation du modèle.
 
 [(5)]: #annexe-5
 [(6)]: #annexe-6
 
 ## Modélisation
 
-TODO :
-- présentation du modèle
-- description du modèle (avec code)
-- choix des hyperparamètres
-- monitoring des entraînements
-- validation du modèle
-- conversion vers ONNX
-- stockage objet des modèles + features engineering
+Pour ce projet, nous avons choisi d'utiliser un modèle de type *LSTM* pour prédire les valeurs de clôture de la monnaie
+sur un intervalle de temps de 1 heure. Pour le chargement des données, la définition de l'architecture du modèle ainsi
+que son entraînement, nous avons choisi d'utiliser la librairie [*PyTorch-Lightning*](https://pytorchlightning.ai/) qui 
+est une sur-couche de l'excellente librairie *PyTorch*. Cette librairie permet de packager plus simplement et rapidement 
+du code *PyTorch*, ce qui va nous aider pour le déploiement et le service de nos modèles via notre API dans un second temps.
+
+### Définition de l'architecture du modèle
+
+Nous allons commencer par décrire l'architecture du modèle qui se compose de deux parties :
+
+* Un premier module `LSTMRegressor`[(7)] qui définit la structure du modèle, les hyperparamètres, ainsi que les différentes
+étapes d'inférence via un `nn.Module` de *PyTorch*.
+* Un second module `PricePredictor`[(8)] qui hérite de l'architecture du premier module et qui va permettre de définir
+les étapes d'entraînement, de validation, de test, le *learning rate* et la fonction de *loss* du modèle.
+
+La fonction de *loss* du modèle est la fonction de coût qui va permettre de déterminer la qualité du modèle. Nous utilisons
+la fonction de coût `nn.MSELoss()` de la librairie *PyTorch* qui va nous permettre de calculer l'erreur au carré (*mean
+squared error*, en anglais) entre la valeur prédite et la valeur réelle.
+
+Pour l'entraînement du modèle, nous utiliserons un *dataloader* qui va permettre de charger les données en batchs. C'est
+la classe `LSTMDataLoader`[(9)] qui hérite de `CryptoDataset`[(10)] qui va s'occuper de charger et de distribuer les
+batchs de données lors des différentes phases d'entraînement, validation et test.
+
+[(7)]: #annexe-7
+[(8)]: #annexe-8
+[(9)]: #annexe-9
+[(10)]: #annexe-10
+
+### Choix des hyperparamètres
+
+### Entraînements et monitoring
+
+### Validation du modèle
+
+### Conversion vers ONNX
+
+### Stockage des modèles et des features engineering
+
+
 
 ## Service des modèles
 
