@@ -41,7 +41,7 @@
 \newpage
 
 ###### Annexe 11
-![Annexe 11](./content/appendix/11.png)
+![Annexe 11](./content/appendix/11.png){height=700px}
 \newpage
 
 ###### Annexe 12
