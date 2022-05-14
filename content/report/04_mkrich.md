@@ -81,7 +81,7 @@ Tout d'abord, nous allons extraire les données utiles à partir de la série te
 et `timestamp`. Nous stockons également la différence entre la valeur de clôture et la valeur d'ouverture pour chaque 
 intervalle sous le nom `close_change`.
 
-Ainsi à l'issu de cette étape, nous obtenons un nouveau `pandas.DataFrame` qui contient les features spécialement
+Ainsi à l'issu de cette étape, nous obtenons un nouveau `pandas.DataFrame` qui contient les *features* spécialement
 sélectionnées pour l'entraînement. Nous n'incluons pas les colonnes relatives aux volumes d'échange et aux trades, car
 c'est la prédiction de la valeur de clôture sur l'intervalle suivant qui nous intéresse ici. Il serait néanmoins possible
 d'inclure les notions de volumes dans l'entraînement, mais cela complexifierait le modèle et l'alourdirait pour un gain
@@ -255,16 +255,17 @@ les deux prédictions doit respecter une tolérance absolue de $10^{-5}$ et une 
 [(13)]: #annexe-13
 [(14)]: #annexe-14
 
-### Stockage des modèles et des features engineering
+### Stockage des modèles et des *features engineering*
 
-Il ne nous reste plus qu'à stocker les modèles et les features engineering dans une base de données. Vu les données que
+Il ne nous reste plus qu'à stocker les modèles et les *features engineering* dans une base de données. Vu les données que
 nous souhaitons conserver, c'est une base de données orientée vers le stockage objet que nous utiliserons, tel que *AWS S3*,
 *Google Cloud Storage* ou *Azure Blob Storage*. Dans notre cas, nous utilisons *Minio* pour stocker nos données, car c'est
 l'équivalent de *AWS S3* mais hébergeable n'importe où sur le web ou en local.
 
-C'est grâce à la fonction `upload_files()`[(15)] que nous allons pouvoir stocker nos modèles et les features engineering qui
+C'est grâce à la fonction `upload_files()`[(15)] que nous allons pouvoir stocker nos modèles et les *features engineering* qui
 sont associées dans un répertoire unique de notre base de données. Ainsi, ils seront accessibles par la suite par l'API
-pour leur utilisation.
+pour leur utilisation. Dans notre, cas c'est uniquement le `MinMaxScaler` qui est stocké dans notre base de données au 
+format *pickle*.
 
 Enfin, afin de s'assurer que les fichiers générés par l'entraînement d'un modèle et permettre de conserver de l'espace 
 disque sur la machine qui réalise l'entraînement, nous utilisons une fonction de nettoyage de tous les fichiers locaux 
@@ -274,34 +275,100 @@ qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipe
 
 ## Service des modèles
 
-...
+Maintenant que nous avons terminé l'entraînement du modèle et qu'il est prêt à être utilisé, nous allons créer un service
+pour le stocker et le rendre accessible via une *API*. C'est exactement la définition du service d'un modèle de *Machine
+Learning* (*model serving*, en anglais) et c'est une étape cruciale pour permettre à des utilisateurs de bénéficier du 
+produit de *Machine Learning* qu'offre notre service.
 
 ### Qu'est-ce-que servir des modèles
 
-...
+Servir des modèles de *Machine Learning* est une tâche qui implique la gestion de ressources, de données et le monitoring
+permanent des performances du modèle. C'est donc une étape à ne pas sous-estimer et qui implique une bonne préparation et
+une bonne organisation pour réussir.
+
+À cela s'ajoute un facteur d'échelle, qui est la capacité de répondre aux besoins des utilisateurs. Ce n'est pas pareil
+d'avoir un modèle disponible pour 5 personnes ou pour 50.000 personnes. C'est pourquoi notre approche quant au service de nos
+modèles de prédictions a été de prévoir la mise à l'échelle en faisant en sorte que le déploiement d'un seul modèle soit
+identique et répétable pour $N$ modèles et $N$ utilisateurs.
 
 ### Dockerisation
 
-...
+Pour que le déploiement soit répétable et identique pour chaque modèle et chaque utilisateur, nous utilisons *Docker* 
+comme outil de déploiement. C'est un outil de gestion de conteneurs qui permet de déployer des applications en local ou
+sur un serveur cloud. On définit une série d'instructions pour la création et le déploiement du ou des différents containers
+via des fichiers *Dockerfile* et *Docker Compose*.
+
+Le *Dockerfile* est un fichier de configuration qui permet de définir les instructions de création d'un container spécifique,
+et le *Docker Compose* est un fichier de configuration qui permet de définir les instructions de déploiement de plusieurs
+containers. Nous avons donc plusieurs fichiers pour l'interface utilisateur[(17)] et un *Dockerfile* pour l'*API*[(18)].
+
+[(17)]: #annexe-17
+[(18)]: #annexe-18
 
 ### Présentation de l'API
 
-...
+Nous allons maintenant décrire l'*API*, ses différents *endpoints* et leurs rôles. L'avantage de l'*API* est de pouvoir
+s'adapter à toutes les exigences de nos utilisateurs. Ainsi, un utilisateur mobile peut demander une prédiction à l'API, 
+tout comme un utilisateur de bureau peut demander une prédiction à l'API via notre interface web ou un script Python.
+De cette manière, nous pouvons rendre accessible le modèle de prédiction à tous les utilisateurs.
+
+L'*API* est composée de plusieurs *endpoints*. Chaque endpoint est défini par une URL et une méthode HTTP. Lorsque l'on
+souhaite accèder à l'*API*, nous arrivons directement sur la documentation des différents *endpoints*[(19)].
+
+[(19)]: #annexe-19
 
 #### Gestion des modèles
 
-...
+Les différents modèles de prédictions sont chargés par l'*API* grâce à la classe qui les gère, `ModelLoader`[(20)]. Cette
+classe de gestion du chargement des modèles et de leur prédiction va permettre une flexibilité totale au niveau du nombre 
+de modèle disponible, leur *features engineering* spécifique et leurs informations respectives.
+
+La classe `ModelLoader` se base sur une autre classe `ONNXModel`[(21)] qui va être le squelette de base pour chacun des 
+modèles de prédictions. Ainsi, cette base permet à chaque modèle de fonctionner de la même manière peu importe la crypto-monnaie
+sur laquelle il est basé.
+
+Nous avons donc une classe qui permet le fonctionnement de chaque modèle de façon identique et une autre classe qui s'occupe
+d'orchestrer l'ensemble des modèles de prédictions pour qu'ils soient mis à jour et disponibles pour tous les utilisateurs
+via les différents endpoints de l'*API*.
+
+[(20)]: #annexe-20
+[(21)]: #annexe-21
 
 #### Les endpoints de l'API
 
-...
+Les endpoints de l'*API* sont au nombre de six, avec trois endpoints avec une méthode *PUT* et trois endpoints plus 
+utilitaires disposant d'une méthode *GET*.
+
+* Endpoints de *serving* [(22)])]:
+    * `/predict` : permet de récupérer la prédiction d'un modèle d'une crypto-monnaie comparée à une monnaie.
+    * `/update_models` : permet de mettre à jour les modèles de prédiction avec les derniers fichiers disponibles dans la
+    base de données.
+    * `/update_date` : permet de mettre à jour la date de la dernière mise à jour des modèles, important pour assurer que
+    l'*API* met toujours à disposition les derniers modèles de prédiction.
+
+* Endpoints de *monitoring* [(23)]:
+    * `/check_models_number` : permet de vérifier le nombre de modèles disponibles sur l'*API*.
+    * `/healthz` : permet de vérifier le bon fonctionnement de l'*API*. Indispensable si orchestration via *Kubernetes*.
+    * `/readyz` : permet de vérifier la disponibilité de l'*API*. Indispensable si orchestration via *Kubernetes*.
+
+[(22)]: #annexe-22
+[(23)]: #annexe-23
 
 ## Interface utilisateur
 
-TODO :
-- présentation de l'interface utilisateur
-- base de données relationnelle pour authentification
-- tokens pour appels API
+...
+
+### Présentation de l'interface utilisateur
+
+...
+
+### Présentation de la base de données relationnelle
+
+...
+
+### Explication du fonctionnement des tokens
+
+...
 
 ## Packaging du projet
 

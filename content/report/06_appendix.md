@@ -65,7 +65,8 @@
 \newpage
 
 ###### Annexe 17
-![Annexe 17](./content/appendix/17.png)
+![Annexe 17](./content/appendix/17.1.png){height=200px}
+![Annexe 17](./content/appendix/17.2.png){height=500px}
 \newpage
 
 ###### Annexe 18
@@ -77,5 +78,27 @@
 \newpage
 
 ###### Annexe 20
-![Annexe 20](./content/appendix/20.png)
+![Annexe 20](./content/appendix/20.1.png){height=700px}
+\newpage
+![Annexe 20](./content/appendix/20.2.png){height=700px}
+\newpage
+
+###### Annexe 21
+![Annexe 21](./content/appendix/21.png){height=700px}
+\newpage
+
+###### Annexe 22
+![Annexe 22](./content/appendix/22.png)
+\newpage
+
+###### Annexe 23
+![Annexe 23](./content/appendix/23.png)
+\newpage
+
+###### Annexe 24
+![Annexe 24](./content/appendix/24.png)
+\newpage
+
+###### Annexe 25
+![Annexe 25](./content/appendix/25.png)
 \newpage
