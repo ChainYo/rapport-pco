@@ -102,3 +102,31 @@
 ###### Annexe 25
 ![Annexe 25](./content/appendix/25.png)
 \newpage
+
+###### Annexe 26
+![Annexe 26](./content/appendix/26.png)
+\newpage
+
+###### Annexe 27
+![Annexe 27](./content/appendix/27.png)
+\newpage
+
+###### Annexe 28
+![Annexe 28](./content/appendix/28.png)
+\newpage
+
+###### Annexe 29
+![Annexe 29](./content/appendix/29.png)
+\newpage
+
+###### Annexe 30
+![Annexe 30](./content/appendix/30.png)
+\newpage
+
+###### Annexe 31
+![Annexe 31](./content/appendix/31.png)
+\newpage
+
+###### Annexe 32
+![Annexe 32](./content/appendix/32.png)
+\newpage

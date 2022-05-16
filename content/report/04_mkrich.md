@@ -356,19 +356,48 @@ utilitaires disposant d'une méthode *GET*.
 
 ## Interface utilisateur
 
-...
+Le dernier composant du projet est l'interface utilisateur. Cette interface permet de choisir la crypto-monnaie à comparer
+et accéder aux prédictions des différents modèles de prédiction. L'interface utilisateur est un démonstrateur *Streamlit*
+combiné avec une base de données relationnelles *PostgreSQL* pour assurer l'authentification des utilisateurs.
 
 ### Présentation de l'interface utilisateur
 
-...
+Pour pouvoir accéder à l'interface utilisateur, l'utilisateur doit être authentifié[(24)]. Pour cela, il doit être enregistré
+dans la base de données. Si l'utilisateur se connecte pour la première fois, il sera automatiquement enregistré et un 
+jeton d'authentification sera créé et à renouveller au bout de dix jours.
 
-### Présentation de la base de données relationnelle
+Une fois authentifié, l'utilisateur peut à l'application *Streamlit* sur laquelle il peut afficher les courbes des différentes
+crypto-monnaie comparées à une monnaie. Il peut également choisir la crypto-monnaie à comparer et les modèles de prédiction à
+afficher[(25)]. 
 
-...
+Si l'utilisateur le souhaite, il peut également récupérer un token qui lui permettra d'utiliser l'*API* pour récupérer les
+prédictions directement sans passer par l'interface utilisateur[(26)].
+
+[(24)]: #annexe-24
+[(25)]: #annexe-25
+[(26)]: #annexe-26
+
+### Présentation de la base de données relationnelles
+
+La base de données regroupe les différentes données des utilisateurs de l'interface et de l'*API*. Elle est composée de
+cinq tables :
+
+* `users` : table qui stocke les identifiants et les mots de passe hashés des utilisateurs.
+* `roles` : table qui stocke les différents rôles des utilisateurs parmis *admin* et *member*.
+* `user_roles` : table qui stocke les rôles des utilisateurs.
+* `api_tokens` : table qui stocke les jetons d'authentification de l'*API* pour les utilisateurs.
+* `user_api_consumptions` : table qui stocke les consommations des utilisateurs de l'*API*.
+
+La base de données *PostgreSQL* est initialisée au déploiement avec toutes ces tables via un fichier `init.sql`[(27)].
+
+[(27)]: #annexe-27
 
 ### Explication du fonctionnement des tokens
 
-...
+Les tokens des utilisateurs sont créés à l'enregistrement de l'utilisateur dans la base de données. Ils sont ensuite
+utilisés à chaque requête à l'*API* qui sert les modèles de prédictions. Ces tokens servent à limiter le nombre de requêtes
+effectuées par l'utilisateur sur une période de temps limitée. La limite est très large pour seulement trois modèles, mais
+dans une optique d'ajout de modèles, il serait possible d'inclure une forme de monétisation du service.
 
 ## Packaging du projet
 
@@ -382,10 +411,10 @@ L'ensemble du code est packagée grâce à *pypi* ce qui permet à n'importe qui
 
 ### Utilisation de Prefect
 
-Nous avons décidé d'utiliser la librairie *Prefect*[(N)] pour l'automatisation du pipeline d'entraînement des modèles de 
+Nous avons décidé d'utiliser la librairie *Prefect*[(28)] pour l'automatisation du pipeline d'entraînement des modèles de 
 prédiction. Cette librairie est un *ETL (Extract Transform Load)* qui permet de définir des *flows* et des *tasks* qui seront 
-automatiquement exécutés selon les instructions définies. Dans notre cas, nous avons défini un *flow* pour chaque crypto-monnaie
-pour laquelle nous souhaitons entraîner un modèle de prédiction[(N2)].
+automatiquement exécutés selon les instructions définies[(29)]. Dans notre cas, nous avons défini un *flow* pour chaque crypto-monnaie
+pour laquelle nous souhaitons entraîner un modèle de prédiction[(30)].
 
 L'avantage c'est que tout cet enchaînement d'actions bénéficie d'une interface de visualisation des fonctionnalités
 pour relancer une tâche qui aurait planté ou pour tout simplement voir le détail d'une tâche et son avancement.
@@ -394,8 +423,9 @@ Le `scheduler` de *Prefect* est aussi très utile puisque nous avons besoin de d
 à intervalles réguliers (toutes les heures), ces intervalles peuvent être modifié très simplement sans avoir besoin de 
 tout changer.
 
-[(N)]: #annexe-N
-[(N2)]: #annexe-N2
+[(28)]: #annexe-28
+[(29)]: #annexe-29
+[(30)]: #annexe-30
 
 ### Documentation du projet
 
@@ -405,14 +435,14 @@ d'expliquer comment les déployer pour l'utilisateur. Elle permet également de 
 du package *Python* du projet.
 
 Pour rédiger la documentation, nous avons utilisé la librairie *Mkdocs-material* qui permet de générer un site web à partir
-d'un fichier *yaml*[(N3)] décrivant le contenu du projet et de fichiers markdown contenant le contenu de chaque page.
+d'un fichier *yaml*[(31)] décrivant le contenu du projet et de fichiers markdown contenant le contenu de chaque page.
 
 Le déploiement de la documentation est également automatisé via *GitHub-Action* qui permet de définir des actions de 
 déploiement automatiques à chaque fois qu'un changement est apporté au code du projet. Les instructions doivent être mises
-dans un dossier `.github/workflows/`[(N4)] du projet.
+dans un dossier `.github/workflows/`[(32)] du projet.
 
-[(N3)]: #annexe-N3
-[(N4)]: #annexe-N4
+[(31)]: #annexe-31
+[(32)]: #annexe-32
 
 ### Alerting
 
