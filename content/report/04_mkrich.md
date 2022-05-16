@@ -420,8 +420,6 @@ Enfin pour rendre le projet plus complet, un système d'alerting a été mis en 
 en cas de problèmes avec l'*API* ou les *flows* de *Prefect* qui pourraient ne pas fonctionner correctement. C'est aussi
 une des raisons pour laquelle des endpoints de *monitoring* ont été mis en place dans l'*API*.
 
-Les alertes émises par les différents composants sont envoyées directement sur un serveur *Discord*[(N5)] accessibles
-à l'équipe qui se charge de la maintenance du projet. C'est un service gratuit de messagerie qu'il faut mettre en place,
-et via un *Webhook* toutes les alertes seront transmises directement dans un salon prédéfini sur le serveur.
-
-[(N5)]: #annexe-N5
+Les alertes émises par les différents composants sont envoyées directement sur un serveur *Discord* accessibles à l'équipe 
+qui se charge de la maintenance du projet. C'est un service gratuit de messagerie qu'il faut mettre en place, et via un 
+*Webhook* toutes les alertes seront transmises directement dans un salon prédéfini sur le serveur.
