@@ -372,9 +372,56 @@ utilitaires disposant d'une méthode *GET*.
 
 ## Packaging du projet
 
-TODO :
-- ETL - Prefect
-- Déploiement - Docker, Cloud ou Local
-- Documentation - Mkdocs material
-- Alerting
+Le projet entier a été réfléchi pour être déployable sur n'importe quel système, avec les composants au même endroit ou
+sur des serveurs différents. Nous avons déjà évoqué le fait que les composants de service et d'interface utilisateur 
+utilisent la puissance de *Docker* pour leur déploiement, mais il y a également la partie *training* qui se veut automatisée
+grâce à *Prefect*.
 
+L'ensemble du code est packagée grâce à *pypi* ce qui permet à n'importe qui d'installer le projet via la commande
+`pip install make-us-rich` et de commencer à déployer les composants du projet selon ses besoins.
+
+### Utilisation de Prefect
+
+Nous avons décidé d'utiliser la librairie *Prefect*[(N)] pour l'automatisation du pipeline d'entraînement des modèles de 
+prédiction. Cette librairie est un *ETL (Extract Transform Load)* qui permet de définir des *flows* et des *tasks* qui seront 
+automatiquement exécutés selon les instructions définies. Dans notre cas, nous avons défini un *flow* pour chaque crypto-monnaie
+pour laquelle nous souhaitons entraîner un modèle de prédiction[(N2)].
+
+L'avantage c'est que tout cet enchaînement d'actions bénéficie d'une interface de visualisation des fonctionnalités
+pour relancer une tâche qui aurait planté ou pour tout simplement voir le détail d'une tâche et son avancement.
+
+Le `scheduler` de *Prefect* est aussi très utile puisque nous avons besoin de définir des tâches qui seront exécutées
+à intervalles réguliers (toutes les heures), ces intervalles peuvent être modifié très simplement sans avoir besoin de 
+tout changer.
+
+[(N)]: #annexe-N
+[(N2)]: #annexe-N2
+
+### Documentation du projet
+
+L'intégralité du projet bénéficie d'un documentation qui lui est propre, il est possible de la consulter via le lien présent
+sur le *GitHub* du projet. Cette documentation permet de présenter le projet, ses différents composants et surtout
+d'expliquer comment les déployer pour l'utilisateur. Elle permet également de décrire les différentes fonctions et classes
+du package *Python* du projet.
+
+Pour rédiger la documentation, nous avons utilisé la librairie *Mkdocs-material* qui permet de générer un site web à partir
+d'un fichier *yaml*[(N3)] décrivant le contenu du projet et de fichiers markdown contenant le contenu de chaque page.
+
+Le déploiement de la documentation est également automatisé via *GitHub-Action* qui permet de définir des actions de 
+déploiement automatiques à chaque fois qu'un changement est apporté au code du projet. Les instructions doivent être mises
+dans un dossier `.github/workflows/`[(N4)] du projet.
+
+[(N3)]: #annexe-N3
+[(N4)]: #annexe-N4
+
+### Alerting
+
+Enfin pour rendre le projet plus complet, un système d'alerting a été mis en place pour notifier automatiquement l'utilisateur
+en cas de problèmes avec l'*API* ou les *flows* de *Prefect* qui pourraient ne pas fonctionner correctement. C'est aussi
+une des raisons pour laquelle des endpoints de *monitoring* ont été mis en place dans l'*API*.
+
+Les alertes émises par les différents composants sont envoyées directement sur un serveur *Discord*[(N5)] accessibles
+à l'équipe qui se charge de la maintenance du projet. C'est un service gratuit de messagerie qu'il faut mettre en place,
+et via un *Webhook* toutes les alertes seront transmises directement dans un salon prédéfini sur le serveur.
+
+[(N5)]: #annexe-N5
