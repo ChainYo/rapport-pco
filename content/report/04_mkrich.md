@@ -29,12 +29,12 @@ de votre projet.
 Cette étape de récupération des séries temporelles correspond à l'étape de *fetching* sur le schéma présenté en introduction.
 Les données que j'utilise sont des données publiques collectées par beaucoup de plateformes de marchés financiers. Pour
 ce projet, j'ai choisi de récupérer les données de la plateforme *Binance*. *Binance* est une plateforme très connue dans
-le monde de l'échange de crypto-monnaies et elle dispose d'une API de trading qui permet de récupérer des données très 
+le monde de l'échange de crypto-monnaies et elle dispose d'une *API* de trading qui permet de récupérer des données très 
 simplement et rapidement. Il suffit de disposer d'un compte sur *Binance* et de se générer un token d'accès pour pouvoir
-utiliser cette API de façon permanente et sans frais.
+utiliser cette *API* de façon permanente et sans frais.
 
 *Binance* dispose également d'un package Python (`python-binance`) qui facilite les appels à son *API*. J'ai donc coder une classe, `BinanceClient`[(1)],
-qui permet de gérer les interactions avec l'API de *Binance* et qui inclut des méthodes telles que la récupération de données
+qui permet de gérer les interactions avec l'*API* de *Binance* et qui inclut des méthodes telles que la récupération de données
 sur cinq jours, un an ou une période à définir par l'utilisateur. Ces méthodes requièrent en argument un symbole de crypto-
 monnaie et une monnaie de comparaison dans tous les cas et renvoient les données sous forme de `pandas.DataFrame`.
 
@@ -65,7 +65,7 @@ Ce sont des informations classiques que l'on retrouve souvent sur les plateforme
 que pour notre cas d'usage, toutes ces données ne seront pas utilisées. De plus, ces données ne seront pas stockées 
 puisqu'elles ne sont plus valables après la fin de l'intervalle de récupération et que le projet prévoit un ré-entrainement
 toutes les heures des modèles. Ainsi nous n'avons pas besoin de stocker les données pour une utilisation ultérieure, un 
-simple appel à l'API suffit pour récupérer les nouvelles données utiles à un entraînement de modèle.
+simple appel à l'*API* suffit pour récupérer les nouvelles données utiles à un entraînement de modèle.
 
 ### Préparation des données
 
@@ -112,7 +112,7 @@ les écarts entre les données et ainsi les rendre plus facile à manipuler par 
 
 On utilise ici la méthode de normalisation `MinMaxScaler` de la librairie `scikit-learn`. Il est important de noter que nous
 sauvegardons également cet objet de normalisation dans un fichier *pickle* pour pouvoir l'utiliser plus tard lors de
-l'inférence via l'API. En effet, puisque le modèle est entraîné sur des données normalisées, il est primordial qu'elles 
+l'inférence via l'*API*. En effet, puisque le modèle est entraîné sur des données normalisées, il est primordial qu'elles 
 le soient également lors des prédictions postérieures. De plus, nous avons besoin de cet objet pour pouvoir inverser la
 normalisation des données prédites et obtenir des valeurs de clôture réelles, c'est-à-dire des valeurs de clôture non
 normalisées.
@@ -142,7 +142,7 @@ Pour ce projet, nous avons choisi d'utiliser un modèle de type *LSTM* pour pré
 sur un intervalle de temps de 1 heure. Pour le chargement des données, la définition de l'architecture du modèle ainsi
 que son entraînement, nous avons choisi d'utiliser la librairie [*PyTorch-Lightning*](https://pytorchlightning.ai/) qui 
 est une sur-couche de l'excellente librairie *PyTorch*. Cette librairie permet de packager plus simplement et rapidement 
-du code *PyTorch*, ce qui va nous aider pour le déploiement et le service de nos modèles via notre API dans un second temps.
+du code *PyTorch*, ce qui va nous aider pour le déploiement et le service de nos modèles via notre *API* dans un second temps.
 
 ### Définition de l'architecture du modèle
 
@@ -308,8 +308,8 @@ containers. Nous avons donc plusieurs fichiers pour l'interface utilisateur[(17)
 ### Présentation de l'API
 
 Nous allons maintenant décrire l'*API*, ses différents *endpoints* et leurs rôles. L'avantage de l'*API* est de pouvoir
-s'adapter à toutes les exigences de nos utilisateurs. Ainsi, un utilisateur mobile peut demander une prédiction à l'API, 
-tout comme un utilisateur de bureau peut demander une prédiction à l'API via notre interface web ou un script Python.
+s'adapter à toutes les exigences de nos utilisateurs. Ainsi, un utilisateur mobile peut demander une prédiction à l'*API*, 
+tout comme un utilisateur de bureau peut demander une prédiction à l'*API* via notre interface web ou un script Python.
 De cette manière, nous pouvons rendre accessible le modèle de prédiction à tous les utilisateurs.
 
 L'*API* est composée de plusieurs *endpoints*. Chaque *endpoint* est défini par une URL et une méthode HTTP. Lorsque l'on

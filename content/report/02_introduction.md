@@ -11,14 +11,14 @@ connaissance, n'intègre des outils d'analyses et de prédictions des cours des 
 ## Enoncé du problème
 
 Puisqu'aucun outil, disponible gratuitement, n'offre la possibilité de simuler une prédiction de l'évolution des cours
-des crypto-monnaies, je souhaite créer un outil permettant de façon automatisée et transparente pour l'utilisateur de
+des crypto-monnaies, je souhaite créer un outil permettant, de façon automatisée et transparente pour l'utilisateur, de
 suivre l'évolution des cours des crypto-monnaies. Comment permettre à l'utilisateur de disposer d'informations de
 prédictions automatiques sur ses actifs qui soient un minimum fiables ?
 
 ## Objectifs
 
 Développer une architecture permettant l'entraînement automatique de modèles de prédiction de l'évolution des cours
-des crypto-monnaies, le service de ces modèles via une *API REST* ainsi qu'une interface web permettant de visualiser
+des crypto-monnaies, le service de ces modèles via une *API* ainsi qu'une interface web permettant de visualiser
 les prédictions et l'évolution des cours des crypto-monnaies par l'utilisateur.
 
 ## Approche de la solution
@@ -27,7 +27,7 @@ Le projet se décompose en trois composants distincts et qui interagissent entre
 
 * **Interface** : l'interface web permettant à l'utilisateur de visualiser les prédictions et l'évolution des cours
 des crypto-monnaies.
-* **Serving** : le serveur web qui met à disposition les modèles de prédiction via une API REST.
+* **Serving** : le serveur web qui met à disposition les modèles de prédiction via une *API*.
 * **Training** : pipeline automatisé d'entraînement des modèles, de leur validation et de leur stockage.
 
 Voici un schéma de l'architecture du projet :
