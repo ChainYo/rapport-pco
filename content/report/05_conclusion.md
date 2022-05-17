@@ -1,10 +1,6 @@
 \newpage
 # Conclusion
 
-TODO :
-- retour sur projet : ce qui a été fait, reste à faire, mieux, moins bien, ...
-- ouverture : monétisation, modélisation, fonctionnalités utilisateurs, ...
-
 Ce projet a été réalisé dans le cadre de ma formation en alternance et bien qu'il ne concernait pas directement un projet
 que j'ai pu faire en entreprise, il a bénéficié des compétences acquises durant cette période. J'ai également pu monter en
 compétences pendant sa réalisation, notamment sur la création de package Python et leur mise à disposition sur *PyPi* ou
