@@ -33,7 +33,7 @@ le monde de l'échange de crypto-monnaies et elle dispose d'une API de trading q
 simplement et rapidement. Il suffit de disposer d'un compte sur *Binance* et de se générer un token d'accès pour pouvoir
 utiliser cette API de façon permanente et sans frais.
 
-*Binance* dispose également d'un package Python (`python-binance`) qui facilite les appels à son API. J'ai donc coder une classe, `BinanceClient`[(1)],
+*Binance* dispose également d'un package Python (`python-binance`) qui facilite les appels à son *API*. J'ai donc coder une classe, `BinanceClient`[(1)],
 qui permet de gérer les interactions avec l'API de *Binance* et qui inclut des méthodes telles que la récupération de données
 sur cinq jours, un an ou une période à définir par l'utilisateur. Ces méthodes requièrent en argument un symbole de crypto-
 monnaie et une monnaie de comparaison dans tous les cas et renvoient les données sous forme de `pandas.DataFrame`.
@@ -110,8 +110,8 @@ allons utiliser la fonction `scale_data()`[(4)]. Cette fonction va permettre de 
 comprises entre -1 et 1 pour nos deux jeux de données. C'est une technique de normalisation qui permet de réduire
 les écarts entre les données et ainsi les rendre plus facile à manipuler par le modèle lors de l'entraînement.
 
-On utilise ici la méthode de normalisation `MinMaxScaler` de la librairie `sklearn`. Il est important de noter que nous
-sauvegardons également cet objet de normalisation dans un fichier pickle pour pouvoir l'utiliser plus tard lors de
+On utilise ici la méthode de normalisation `MinMaxScaler` de la librairie `scikit-learn`. Il est important de noter que nous
+sauvegardons également cet objet de normalisation dans un fichier *pickle* pour pouvoir l'utiliser plus tard lors de
 l'inférence via l'API. En effet, puisque le modèle est entraîné sur des données normalisées, il est primordial qu'elles 
 le soient également lors des prédictions postérieures. De plus, nous avons besoin de cet objet pour pouvoir inverser la
 normalisation des données prédites et obtenir des valeurs de clôture réelles, c'est-à-dire des valeurs de clôture non
@@ -263,7 +263,7 @@ nous souhaitons conserver, c'est une base de données orientée vers le stockage
 l'équivalent de *AWS S3* mais hébergeable n'importe où sur le web ou en local.
 
 C'est grâce à la fonction `upload_files()`[(15)] que nous allons pouvoir stocker nos modèles et les *features engineering* qui
-sont associées dans un répertoire unique de notre base de données. Ainsi, ils seront accessibles par la suite par l'API
+sont associées dans un répertoire unique de notre base de données. Ainsi, ils seront accessibles par la suite par l'*API*
 pour leur utilisation. Dans notre, cas c'est uniquement le `MinMaxScaler` qui est stocké dans notre base de données au 
 format *pickle*.
 
@@ -312,7 +312,7 @@ s'adapter à toutes les exigences de nos utilisateurs. Ainsi, un utilisateur mob
 tout comme un utilisateur de bureau peut demander une prédiction à l'API via notre interface web ou un script Python.
 De cette manière, nous pouvons rendre accessible le modèle de prédiction à tous les utilisateurs.
 
-L'*API* est composée de plusieurs *endpoints*. Chaque endpoint est défini par une URL et une méthode HTTP. Lorsque l'on
+L'*API* est composée de plusieurs *endpoints*. Chaque *endpoint* est défini par une URL et une méthode HTTP. Lorsque l'on
 souhaite accèder à l'*API*, nous arrivons directement sur la documentation des différents *endpoints*[(19)].
 
 [(19)]: #annexe-19
