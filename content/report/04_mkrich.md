@@ -453,3 +453,16 @@ une des raisons pour laquelle des endpoints de *monitoring* ont été mis en pla
 Les alertes émises par les différents composants sont envoyées directement sur un serveur *Discord* accessibles à l'équipe 
 qui se charge de la maintenance du projet. C'est un service gratuit de messagerie qu'il faut mettre en place, et via un 
 *Webhook* toutes les alertes seront transmises directement dans un salon prédéfini sur le serveur.
+
+### Méthodologie et organisation
+
+Pour mener à bien ce projet, nous avons décidé d'utiliser l'outil de méthodologie agile intégré à *GitHub* qui est un tableau 
+*Kanban*[(33)] sur lequel j'ai différencié les tâches selon trois status : *To Do*, *In Progress* et *Done*. Les tâches ont été
+définies en amont par rapport aux objectifs du projet et également au fil du projet pour venir combler des manques ou des besoins
+qui n'avaient pas été pensé en amont.
+
+Les tâches ont été différenciées par des *tags* qui visent à classer les tâches dans des catégories : *documentation*, *AI feature*,
+*bug*, *dev*, *feature*, *front-end*, *main feature*. Ces différenciations permettent de rapidement voir à quoi va servir la tâche
+et aussi se donner une idée sur les tâches prioritaires par rapport à l'ensemble des tâches à faire.
+
+[(33)]: #annexe-33
