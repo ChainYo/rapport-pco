@@ -29,12 +29,12 @@ de votre projet.
 Cette étape de récupération des séries temporelles correspond à l'étape de *fetching* sur le schéma présenté en introduction.
 Les données que j'utilise sont des données publiques collectées par beaucoup de plateformes de marchés financiers. Pour
 ce projet, j'ai choisi de récupérer les données de la plateforme *Binance*. *Binance* est une plateforme très connue dans
-le monde de l'échange de crypto-monnaies et elle dispose d'une *API* de trading qui permet de récupérer des données très 
-simplement et rapidement. Il suffit de disposer d'un compte sur *Binance* et de se générer un token d'accès pour pouvoir
+le monde de l'échange de crypto-monnaies et elle dispose d'une *API* qui permet de récupérer des données très 
+simplement et rapidement. Il suffit de disposer d'un compte sur *Binance* et de se générer un *token* d'accès pour pouvoir
 utiliser cette *API* de façon permanente et sans frais.
 
-*Binance* dispose également d'un package Python (`python-binance`) qui facilite les appels à son *API*. J'ai donc coder une classe, `BinanceClient`[(1)],
-qui permet de gérer les interactions avec l'*API* de *Binance* et qui inclut des méthodes telles que la récupération de données
+*Binance* dispose également d'un package Python (`python-binance`) qui facilite les appels à son *API*. La classe `BinanceClient`[(1)]
+permet de gérer les interactions avec l'*API* de *Binance* et inclut des méthodes telles que la récupération de données
 sur cinq jours, un an ou une période à définir par l'utilisateur. Ces méthodes requièrent en argument un symbole de crypto-
 monnaie et une monnaie de comparaison dans tous les cas et renvoient les données sous forme de `pandas.DataFrame`.
 
@@ -157,7 +157,7 @@ La fonction de *loss* du modèle est la fonction de coût qui va permettre de d�
 la fonction de coût `nn.MSELoss()` de la librairie *PyTorch* qui va nous permettre de calculer l'erreur au carré (*mean
 squared error*, en anglais) entre la valeur prédite et la valeur réelle.
 
-Pour l'entraînement du modèle, nous utiliserons un *dataloader* qui va permettre de charger les données en batchs. C'est
+Pour l'entraînement du modèle, nous utiliserons un *Dataloader* qui va permettre de charger les données en batchs. C'est
 la classe `LSTMDataLoader`[(9)] qui hérite de `CryptoDataset`[(10)] qui va s'occuper de charger et de distribuer les
 batchs de données lors des différentes phases d'entraînement, validation et test.
 
@@ -208,7 +208,7 @@ Nous utilisons une *seed* pour figer l'aléatoire du modèle, via la fonction `s
 * `ModelCheckpoint()` qui va permettre de sauvegarder les poids du modèle à chaque *epoch* et de conserver uniquement
     les poids les plus performants.
 * `EarlyStopping()` qui va permettre de stopper l'entraînement du modèle si le modèle n'a pas progressé depuis un certain
-    nombre d'*epochs*. Ici, nous utilisons un *patience* de 2 *epochs*.
+    nombre d'*epochs*. Ici, nous utilisons une *patience* de 2 *epochs*.
 
 Dans les deux cas, nous utilisons les valeurs de *loss* de validation, que l'on cherche à minimiser, pour déterminer les
 poids les plus performants et s'il faut continuer ou stopper l'entraînement.
@@ -267,11 +267,12 @@ sont associées dans un répertoire unique de notre base de données. Ainsi, ils
 pour leur utilisation. Dans notre, cas c'est uniquement le `MinMaxScaler` qui est stocké dans notre base de données au 
 format *pickle*.
 
-Enfin, afin de s'assurer que les fichiers générés par l'entraînement d'un modèle et permettre de conserver de l'espace 
-disque sur la machine qui réalise l'entraînement, nous utilisons une fonction de nettoyage de tous les fichiers locaux 
-qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipeline nommée `clean_files()`[(16)].
+Enfin, afin de s'assurer que les fichiers générés par l'entraînement d'un modèle sont supprimés et ainsi permettre de 
+conserver de l'espace disque sur la machine qui réalise l'entraînement, nous utilisons une fonction de nettoyage de tous 
+les fichiers locaux qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipeline nommée `clean_files()`[(16)].
 
 [(15)]: #annexe-15
+[(16)]: #annexe-16
 
 ## Service des modèles
 
@@ -294,7 +295,7 @@ identique et répétable pour $N$ modèles et $N$ utilisateurs.
 ### Dockerisation
 
 Pour que le déploiement soit répétable et identique pour chaque modèle et chaque utilisateur, nous utilisons *Docker* 
-comme outil de déploiement. C'est un outil de gestion de conteneurs qui permet de déployer des applications en local ou
+comme outil de déploiement. C'est un outil de gestion de conteneurs qui permet de déployer des applications isolées en local ou
 sur un serveur cloud. On définit une série d'instructions pour la création et le déploiement du ou des différents containers
 via des fichiers *Dockerfile* et *Docker Compose*.
 
@@ -321,7 +322,7 @@ souhaite accèder à l'*API*, nous arrivons directement sur la documentation des
 
 Les différents modèles de prédictions sont chargés par l'*API* grâce à la classe qui les gère, `ModelLoader`[(20)]. Cette
 classe de gestion du chargement des modèles et de leur prédiction va permettre une flexibilité totale au niveau du nombre 
-de modèle disponible, leur *features engineering* spécifique et leurs informations respectives.
+de modèle disponible, leurs *features engineering* spécifiques et leurs informations respectives.
 
 La classe `ModelLoader` se base sur une autre classe `ONNXModel`[(21)] qui va être le squelette de base pour chacun des 
 modèles de prédictions. Ainsi, cette base permet à chaque modèle de fonctionner de la même manière peu importe la crypto-monnaie
@@ -357,18 +358,18 @@ utilitaires disposant d'une méthode *GET*.
 ## Interface utilisateur
 
 Le dernier composant du projet est l'interface utilisateur. Cette interface permet de choisir la crypto-monnaie à comparer
-et accéder aux prédictions des différents modèles de prédiction. L'interface utilisateur est un démonstrateur *Streamlit*
+et d'accéder aux prédictions des différents modèles de prédiction. L'interface utilisateur est un démonstrateur *Streamlit*
 combiné avec une base de données relationnelles *PostgreSQL* pour assurer l'authentification des utilisateurs.
 
 ### Présentation de l'interface utilisateur
 
 Pour pouvoir accéder à l'interface utilisateur, l'utilisateur doit être authentifié[(24)]. Pour cela, il doit être enregistré
 dans la base de données. Si l'utilisateur se connecte pour la première fois, il sera automatiquement enregistré et un 
-jeton d'authentification sera créé et à renouveller au bout de dix jours.
+jeton d'authentification sera créé avec une validité de dix jours.
 
-Une fois authentifié, l'utilisateur peut à l'application *Streamlit* sur laquelle il peut afficher les courbes des différentes
-crypto-monnaie comparées à une monnaie. Il peut également choisir la crypto-monnaie à comparer et les modèles de prédiction à
-afficher[(25)]. 
+Une fois authentifié, l'utilisateur peut avoir accès à l'application *Streamlit* sur laquelle il peut afficher les courbes des 
+différentes crypto-monnaies comparées à une monnaie. Il peut également choisir la crypto-monnaie à comparer et les modèles de 
+prédiction à afficher[(25)]. 
 
 Si l'utilisateur le souhaite, il peut également récupérer un token qui lui permettra d'utiliser l'*API* pour récupérer les
 prédictions directement sans passer par l'interface utilisateur[(26)].
@@ -383,9 +384,9 @@ La base de données regroupe les différentes données des utilisateurs de l'int
 cinq tables :
 
 * `users` : table qui stocke les identifiants et les mots de passe hashés des utilisateurs.
-* `roles` : table qui stocke les différents rôles des utilisateurs parmis *admin* et *member*.
+* `roles` : table qui stocke les différents rôles des utilisateurs parmi *admin* et *member*.
 * `user_roles` : table qui stocke les rôles des utilisateurs.
-* `api_tokens` : table qui stocke les jetons d'authentification de l'*API* pour les utilisateurs.
+* `api_tokens` : table qui stocke les jetons d'authentification à l'*API* pour les utilisateurs.
 * `user_api_consumptions` : table qui stocke les consommations des utilisateurs de l'*API*.
 
 ![Schéma de la base de données relationnelle des utilisateurs de l'application \label {fig:3.1}](./content/assets/bdd-postgresql.png){ width=320px, height=300px }
@@ -399,7 +400,8 @@ La base de données *PostgreSQL* est initialisée au déploiement avec toutes ce
 Les tokens des utilisateurs sont créés à l'enregistrement de l'utilisateur dans la base de données. Ils sont ensuite
 utilisés à chaque requête à l'*API* qui sert les modèles de prédictions. Ces tokens servent à limiter le nombre de requêtes
 effectuées par l'utilisateur sur une période de temps limitée. La limite est très large pour seulement trois modèles, mais
-dans une optique d'ajout de modèles, il serait possible d'inclure une forme de monétisation du service.
+dans une optique d'ajout de modèles, il serait possible d'inclure une forme de monétisation du service qui passerait par une 
+gestion de la consommation.
 
 ## Packaging du projet
 
@@ -422,7 +424,7 @@ L'avantage c'est que tout cet enchaînement d'actions bénéficie d'une interfac
 pour relancer une tâche qui aurait planté ou pour tout simplement voir le détail d'une tâche et son avancement.
 
 Le `scheduler` de *Prefect* est aussi très utile puisque nous avons besoin de définir des tâches qui seront exécutées
-à intervalles réguliers (toutes les heures), ces intervalles peuvent être modifié très simplement sans avoir besoin de 
+à intervalles réguliers (toutes les heures), ces intervalles peuvent être modifiés très simplement sans avoir besoin de 
 tout changer.
 
 [(28)]: #annexe-28
@@ -461,7 +463,7 @@ qui se charge de la maintenance du projet. C'est un service gratuit de messageri
 Pour mener à bien ce projet, nous avons décidé d'utiliser l'outil de méthodologie agile intégré à *GitHub* qui est un tableau 
 *Kanban*[(33)] sur lequel j'ai différencié les tâches selon trois status : *To Do*, *In Progress* et *Done*. Les tâches ont été
 définies en amont par rapport aux objectifs du projet et également au fil du projet pour venir combler des manques ou des besoins
-qui n'avaient pas été pensé en amont.
+qui n'avaient pas été pensés en amont.
 
 Les tâches ont été différenciées par des *tags* qui visent à classer les tâches dans des catégories : *documentation*, *AI feature*,
 *bug*, *dev*, *feature*, *front-end*, *main feature*. Ces différenciations permettent de rapidement voir à quoi va servir la tâche
