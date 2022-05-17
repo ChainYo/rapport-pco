@@ -41,6 +41,4 @@ monde, gratuitement dans une certaine limite, tout en étant déployable par n'i
 J'aimerais également ajouter plus de fonctionnalités quant au *monitoring* des modèles en temps réel et ainsi pouvoir
 détecter des dérives dans leur fonctionnement.
 
-J'aime les gambas 🤗.
-
 \newpage
