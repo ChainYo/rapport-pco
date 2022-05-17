@@ -388,6 +388,8 @@ cinq tables :
 * `api_tokens` : table qui stocke les jetons d'authentification de l'*API* pour les utilisateurs.
 * `user_api_consumptions` : table qui stocke les consommations des utilisateurs de l'*API*.
 
+![Schéma de la base de données relationnelle des utilisateurs de l'application \label {fig:3.1}](./content/assets/bdd-postgresql.png){ width=320px, height=300px }
+
 La base de données *PostgreSQL* est initialisée au déploiement avec toutes ces tables via un fichier `init.sql`[(27)].
 
 [(27)]: #annexe-27
