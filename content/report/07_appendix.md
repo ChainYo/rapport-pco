@@ -1,5 +1,8 @@
+\newpage
+# Annexes
+
 ###### Annexe 1
-![Annexe 1](./content/appendix/01.png){height=700px}
+![Annexe 1](./content/appendix/01.png){height=680px}
 \newpage
 
 ###### Annexe 2
@@ -100,7 +103,7 @@
 \newpage
 
 ###### Annexe 25
-![Annexe 25](./content/appendix/25.png)
+![Annexe 25](./content/appendix/25.png){height=700px}
 \newpage
 
 ###### Annexe 26
@@ -108,7 +111,7 @@
 \newpage
 
 ###### Annexe 27
-![Annexe 27](./content/appendix/27.png)
+![Annexe 27](./content/appendix/27.png){height=700px}
 \newpage
 
 ###### Annexe 28
@@ -124,7 +127,7 @@
 \newpage
 
 ###### Annexe 31
-![Annexe 31](./content/appendix/31.png)
+![Annexe 31](./content/appendix/31.png){height=700px}
 \newpage
 
 ###### Annexe 32
@@ -134,3 +137,5 @@
 ###### Annexe 33
 ![Annexe 33](./content/appendix/33.png)
 \newpage
+
+# Bibliographie
