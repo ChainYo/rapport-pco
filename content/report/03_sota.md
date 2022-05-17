@@ -18,7 +18,7 @@ avec des techniques statistiques et plus récemment d'apprentissage automatique.
 
 L'analyse des séries chronologiques consiste à extraire des informations récapitulatives et statistiques significatives
 à partir de points classés par ordre chronologique. L'intérêt étant de diagnostiquer le comportement passé pour prédire
-le comportement futur.
+le comportement futur d'une série donnée.
 
 Aucune des techniques ne s'est développée dans le vide ou par intérêt purement théorique. Les innovations dans l'analyse
 des séries chronologiques résultent de nouvelles méthodes de collecte, d'enregistrement et de visualisation des 
@@ -27,10 +27,10 @@ données [@nielsen_2019].
 Il existe énormément de domaine d'application tels que la médecine, la météorologie, l'astronomie ou encore ce qui va 
 nous intéresser ici, les marchés financiers et notamment celui des crypto-monnaies.
 
-Pour revenir à l'aspect historique, les organisations privées et notamment bancaires ont commencé à collecter des données
+Pour revenir à l'aspect historique, les organisations privées, et notamment bancaires, ont commencé à collecter des données
 par imitation du gouvernement américain qui collectait des données économiques publiques. Les premiers pionniers de
 l'analyse des données chronologiques des cours de la bourse ont fait ce travail mathématique à la main, alors que de nos
-jours ce travail est réalisé avec l'assistance de méthodes analytiques et des algorithmes de machine learning [@nielsen_2019].
+jours ce travail est réalisé avec l'assistance de méthodes analytiques et des algorithmes de *Machine Learning* [@nielsen_2019].
 
 Richard Dennis, dans les années 80,  a été le premier à développer un algorithme de prédiction des cours de la bourse qui
 ne comprenait que quelques règles de base, permettant à quiconque les connaissant de prévoir le prix d'une action et d'en
@@ -52,7 +52,7 @@ série chronologique est dite stationnaire si ces propriétés telles que la moy
 constantes au cours du temps. Or, cela n'est pas vrai pour toutes les séries temporelles et notamment les données
 issues des marchés financiers, qui ne sont stationnaires que sur une période de temps fixée (souvent courte).
 
-Il existe troise composantes qui constituent une série temporelle :
+Il existe trois composantes qui constituent une série temporelle :
 
 * **Tendance (T = Trend)** : correspond à une augmentation ou à une diminution sur le long terme des données et qui peut 
 assumer une grande variété de modèles. Nous utilisons la tendance pour estimer le niveau, c'est-à-dire la valeur ou la
@@ -110,25 +110,26 @@ Nous pourrions également ajouter à cette liste les très récents modèles bas
 temporelles avec des données non temporelles, des données statiques comme des informations de localisation dans le cas de 
 prédictions météorologiques [@medium_temporal_fusion].
 
-Dans notre projet, nous allons nous concentrer sur les modèles de Machine Learning les plus récents, qui sont les modèles
-de Deep Learning tels que les architectures réseaux de neurones convolutionnels et réseaux de neurones récurrents.
+Dans notre projet, nous allons nous concentrer sur les modèles de *Machine Learning* les plus récents, qui sont les modèles
+de *Deep Learning* tels que les architectures réseaux de neurones convolutionnels et réseaux de neurones récurrents.
 
 ## Réseaux de neurones récurrents (*RNN*)
 
 Les réseaux de neurones récurrents, ou *Recurrent Neural Network*, sont des architectures de neurones qui sont utilisés
 dans beaucoup de cas d'usage. Ils sont appelés réseaux de neurones récurrents car ils sont capables de se réguler en
 fonction de la sortie des neurones précédents [@fund_rnn]. Ils sont notamment utilisés pour la prédiction de séries 
-temporelles, car ils permettent de prédire la valeur d'une variable à partir de ses valeurs précédentes. 
+temporelles, car ils permettent de prédire la valeur d'une variable à partir de ses valeurs précédentes. Ils sont 
+également à l'origine des architecture *Transformers* notamment pour les tâches de traduction en *NLP*.
 
 ### Architecture du réseau de neurones récurrents
 
-C'est par le biais d'états cachés (en anglais *hidden states*) qu'un modèle RNN est capable de réaliser la prédiciton 
-d'une variable. Ainsi, un modèle RNN prend en entrée des séquences de vecteurs de données, et non pas des vecteurs de 
+C'est par le biais d'états cachés (en anglais *hidden states*) qu'un modèle *RNN* est capable de réaliser la prédiciton 
+d'une variable. Ainsi, un modèle *RNN* prend en entrée des séquences de vecteurs de données, et non pas des vecteurs de 
 données individuels.
 
-Une architecture traditionnelle d'un RNN se présente comme suit [@stanford_rnn] :
+Une architecture traditionnelle d'un *RNN* se présente comme suit [@stanford_rnn] :
 
-![Architecture d'un réseau de neurones récurrents (RNN) \label {fig:2.3}](./content/assets/rnn-architecture.png)
+![Architecture d'un réseau de neurones récurrents (*RNN*) \label {fig:2.3}](./content/assets/rnn-architecture.png)
 
 À l'instant *t*, l'activation $a^{<t>}$ d'un neurone est définie par la fonction d'activation suivante :
 
@@ -147,10 +148,10 @@ fonctions d'activation $g_{1}$ et $g_{2}$.
 
 Il est également intéressant de s'intéresser à l'architecture d'une cellule (en anglais *block*) qui compose un réseau 
 de neurones récurrents. Cela permet de comprendre les mécanismes qui ont lieu à chaque étape de la propagation de données 
-dans un réseau RNN. Ce sera également utile dans un second temps pour pouvoir comparer les différences majeures avec des 
-architectures plus intéressantes que celles dites classiques, que nous verrons juste après.
+dans un réseau *RNN*. Ce sera également utile dans un second temps pour pouvoir comparer les différences majeures avec des 
+architectures plus évoluées que les versions basiques, que nous verrons juste après.
 
-![Architecture d'une cellule d'un réseau de neurones récurrents (RNN) [@stanford_rnn] \label {fig:2.4}](./content/assets/description-block-rnn.png){ width=300px, height=250px }
+![Architecture d'une cellule d'un réseau de neurones récurrents (*RNN*) [@stanford_rnn] \label {fig:2.4}](./content/assets/description-block-rnn.png){ width=300px, height=250px }
 
 Nous pouvons voir que chaque cellule va prendre un état de la donnée précédente, et qu'elle va produire une sortie en
 fonction de son état et de la fonction d'activation associée.
@@ -163,19 +164,19 @@ Voici un tableau récapitulatif des avantages et inconvénients d'utiliser ce ge
 |-----------|---------------|
 | - Possibilité de traiter une entrée de n'importe quelle longueur  | - Le calcul est plus consommateur en ressources (par rapport à d'autres modèles) |
 | - La taille du modèle n'augmente pas avec la taille de l'entrée   | - Difficulté pour accéder aux informations trop lointaines                       |
-| - Le calcul prend en compte les informations historiques          | - Impossibilité d'envisager une entrée future pour l'état actuel                 |
-| - Les pondérations sont réparties dans le temps                   |                                                                                  |
-Table: Avantages et inconvénients des modèles RNN \label{tab:2.1}
+| - Le calcul prend en compte les informations antérieures          | - Impossibilité d'envisager une entrée future pour un état donné                 |
+| - Les coefficients sont indépendants du temps                     |                                                                                  |
+Table: Avantages et inconvénients des modèles *RNN* \label{tab:2.1}
 
 
-Nous pouvons constater que comme attendu lors de l'utilisation de modèles de *Deep Learning*, les modèles RNN sont plus 
+Nous pouvons constater que comme attendu lors de l'utilisation de modèles de *Deep Learning*, les modèles *RNN* sont plus 
 consommateurs en ressources que d'autres modèles de *Machine Learning*. Ils présentent néanmoins des avantages non
 négligeables, en dehors d'un gain de performances, pour notre cas d'usage dans le cadre de la prédiction de séries
 temporelles financières.
 
 ### Gestion des gradients
 
-Il existe également un autre inconvénient des modèles RNN qui sont les phénomènes de gradients qui disparaissent et qui
+Il existe également un autre inconvénient des modèles *RNN* qui sont les phénomènes de gradients qui disparaissent et qui
 explosent lors de l'apprentissage. En anglais, on parle de *vanishing gradient* et *exploding gradient*. 
 
 Cela est expliqué par le fait que sur le long terme il est très difficile de capturer les dépendances à cause du gradient 
@@ -215,13 +216,14 @@ Table: Comparaison des différents types de portes et leurs rôles \label{tab:2.
 
 Ces différents types de portes permettent de corriger les erreurs de calcul du gradient en fonction de la mesure de
 l'importance du passé, et ainsi de s'affranchir en partie des phénomènes de gradient qui disparaissent. Il est important
-de noter que les portes d'oubli et de sortie sont utilisées uniquement dans les architectures LSTM. GRU dispose donc de
-deux portes, alors que LSTM dispose de quatre portes.
+de noter que les portes d'oubli et de sortie sont utilisées uniquement dans les architectures *LSTM*. *GRU* dispose donc de
+deux portes, alors que *LSTM* dispose de quatre portes.
 
 \newpage
+
 ### Fonctions d'activation
 
-Il existe trois fonctions d'activation qui sont utilisées dans les modèles RNN :
+Il existe trois fonctions d'activation qui sont utilisées dans les modèles *RNN* :
 
 ![Fonctions d'activation communément utilisées et leurs représentations [@stanford_rnn] \label {fig:2.6}](./content/assets/activation-functions.png){ width=180px, height=200px }
 
@@ -236,25 +238,24 @@ couche du réseau de neurones. Il ne faut pas confondre avec les fonctions de *l
 la qualité de l'apprentissage et sont quant à elles uniques, c'est-à-dire que l'on doit définir une unique fonction de
 loss pour chaque modèle.
 
-### GRU et LSTM
+### *GRU* et *LSTM*
 
-Nous pouvons distinguer les unités de porte récurrente (en anglais *Gated Recurrent Unit*) (GRU) et les unités de mémoire
-à long/court terme (en anglais *Long Short-Term Memory*) (LSTM). Ces deux architectures sont très similaires et visent
-à atténuer le problème de gradient qui disparaît, rencontré avec les RNNs traditionnels lors de l'apprentissage. *LSTM* 
+Nous pouvons distinguer les unités de porte récurrente (en anglais *Gated Recurrent Unit*) (*GRU*) et les unités de mémoire
+à long/court terme (en anglais *Long Short-Term Memory*) (*LSTM*). Ces deux architectures sont très similaires et visent
+à atténuer le problème de gradient qui disparaît, rencontré avec les *RNNs* traditionnels lors de l'apprentissage. *LSTM* 
 peut être vu comme étant une généralisation de *GRU* en utilisant des cellules de mémoire à long ou court terme.
 
 Pour comprendre les différences fondamentales entre les deux architectures, il est nécessaire de regarder en détails les
 différentes équations utilisées par chacune d'elles.
 
-#### Gated Recurrent Unit (GRU)
+#### Gated Recurrent Unit (*GRU*)
 
-
-Comme nous l'avons vu précédemment, l'architecture GRU comporte deux portes : une porte d'actualisation $Γ_{u}$ (en anglais *update gate*) 
+Comme nous l'avons vu précédemment, l'architecture *GRU* comporte deux portes : une porte d'actualisation $Γ_{u}$ (en anglais *update gate*) 
 et une porte de pertinence $Γ_{r}$ (en anglais *reset gate*).
 
-![Architecture d'une unité de GRU [@stanford_rnn] \label {fig:2.7}](./content/assets/gru-unit.png){ width=250px, height=200px }
+![Architecture d'une unité de *GRU* [@stanford_rnn] \label {fig:2.7}](./content/assets/gru-unit.png){ width=250px, height=200px }
 
-Il faut discerner trois composantes importantes pour la structure de l'unité de GRU :
+Il faut discerner trois composantes importantes pour la structure de l'unité de *GRU* :
 
 * La cellule candidate $c̃^{<t>}$, où $c̃^{<t>} = tanh(W_{c}[Γ_{r} ⋆ a^{<t-1>}, x^{<t>}] + b_{c})$
 
@@ -269,18 +270,18 @@ Il faut discerner trois composantes importantes pour la structure de l'unité de
 
 * La fonction d'activation $a^{<t>}$, où $a^{<t>} = c^{<t>}$
 
-#### Long Short-Term Memory (LSTM)
+#### Long Short-Term Memory (*LSTM*)
 
-Maintenant que nous avons vu plus en détails l'architecture générale des RNNs, ainsi que les particularités de GRU, il
-est temps d'aborder en détails les particularités de l'architecture de LSTM, qui sera l'architecture choisie par le 
+Maintenant que nous avons vu plus en détails l'architecture générale des *RNNs*, ainsi que les particularités de *GRU*, il
+est temps d'aborder en détails les particularités de l'architecture de *LSTM*, qui sera l'architecture choisie par le 
 projet final.
 
-En plus des deux portes d'actualisation et de pertinence, LSTM intègre une porte d'oubli $Γ_{f}$ et une porte de sortie $Γ_{o}$.
+En plus des deux portes d'actualisation et de pertinence, *LSTM* intègre une porte d'oubli $Γ_{f}$ et une porte de sortie $Γ_{o}$.
 
-![Architecture d'une unité de LSTM [@stanford_rnn] \label {fig:2.8}](./content/assets/lstm-unit.png){ width=300px, height=250px }
+![Architecture d'une unité de *LSTM* [@stanford_rnn] \label {fig:2.8}](./content/assets/lstm-unit.png){ width=300px, height=250px }
 
-L'architecture LSTM est similaire à l'architecture GRU, mais permet de gérer le problème de gradient qui disparaît. Ainsi,
-aux trois composantes de l'unité de GRU que nous avons vu précédemment, il y a deux différences :
+L'architecture *LSTM* est similaire à l'architecture *GRU*, mais permet de gérer le problème de gradient qui disparaît. Ainsi,
+aux trois composantes de l'unité de *GRU* que nous avons vu précédemment, il y a deux différences :
 
 * La fonction d'activation $a^{<t>}$ est désormais multipliée par la porte de sortie $Γ_{o}$, ce qui permet de contrôler
 la quantité d'information qui est libérée par la cellule. On a donc : $a^{<t>} = Γ_{o} ⋆ c^{<t>}$
@@ -292,9 +293,9 @@ On a ainsi : $c^{<t>} = Γ_{f} ⋆ c^{t-1} + Γ_{f} ⋆ c̃^{<t-1>}$
 
 ## L'avènement des modèles Transformers
 
-Le premier papier de recherche qui présente les modèles Transformers est *Attention Is All You Need* [@attention_is_all_you_need],
+Le premier papier de recherche qui présente les modèles *Transformers* est *Attention Is All You Need* [@attention_is_all_you_need],
 présenté en juin 2017. L'objectif initial de ce genre d'architecture, qui vient ajouter un mécanisme d'attention aux
-RNNs, était d'améliorer les performances des modèles existants sur les tâches de traduction en *NLP*.
+*RNNs*, était d'améliorer les performances des modèles existants sur les tâches de traduction en *NLP*.
 
 ![Architecture d'un modèle Transformer [@attention_is_all_you_need] \label {fig:2.9}](./content/assets/transformers-architecture.png){ width=200px, height=250px }
 
@@ -302,8 +303,8 @@ Nous ne détaillerons pas ici les différentes composantes de cette architecture
 l'utilisation d'un encodeur et d'un décodeur, couplés au mécanisme d'attention, il est possible d'entraîner des modèles
 de manière non-supervisée et surtout d'obtenir des performances encore jamais atteintes par les modèles existants. 
 
-L'entraînement de ces modèles de manière non-supervisée est très simple et permet dans un second temps de *finetuner*
-les modèles avec beaucoup moins de données sur des tâches précises. Ainsi, un même modèle de base peut être entraîné
+L'entraînement de ces modèles de manière non-supervisée est très simple et permet dans un second temps le *fine-tuning*
+des modèles avec beaucoup moins de données sur des tâches précises. Ainsi, un même modèle de base peut être entraîné
 sur différentes tâches et produire des modèles finaux à la pointe des performances des modèles existants.
 
 L'essor de cette architecture a principalement eu lieu dans le domaine du traitement du langage naturel avec des 
@@ -312,10 +313,10 @@ des applications dans les domaines de la vision par ordinateur (*Computer Vision
 ou encore dans le traitement du signal audio (*Audio Processing*).
 
 Cette architecture passionnante est en train de devenir un modèle de référence pour énormément de projet de recherche et
-cela dans quasiment tous les domaines du Machine Learning. Nous ne détaillerons pas plus ici puisque nous n'avons pas 
+cela dans quasiment tous les domaines du *Machine Learning*. Nous ne détaillerons pas plus ici puisque nous n'avons pas 
 fait usage de cette architecture dans **Make Us Rich**, et cela nécessiterait un dossier à part entière tellement il
-y a choses à préciser.
+y a de choses à préciser.
 
-Maintenant que nous avons un meilleur aperçu des modèles de référence, et des détails de l'architecture des modèles RNN,
-et plus particulièrement des modèles LSTM, nous allons pouvoir présenter le projet **Make Us Rich** qui vise à automatiser
-l'entraînement et le service de modèles LSTM pour de la prédiction sur des données financières.
+Maintenant que nous avons un meilleur aperçu des modèles de référence, et des détails de l'architecture des modèles *RNN*,
+et plus particulièrement des modèles *LSTM*, nous allons pouvoir présenter le projet **Make Us Rich** qui vise à automatiser
+l'entraînement et le service de modèles *LSTM* pour de la prédiction sur des données financières.
