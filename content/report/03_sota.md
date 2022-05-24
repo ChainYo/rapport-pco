@@ -320,3 +320,5 @@ y a de choses à préciser.
 Maintenant que nous avons un meilleur aperçu des modèles de référence, et des détails de l'architecture des modèles *RNN*,
 et plus particulièrement des modèles *LSTM*, nous allons pouvoir présenter le projet **Make Us Rich** qui vise à automatiser
 l'entraînement et le service de modèles *LSTM* pour de la prédiction sur des données financières.
+
+\newpage
