@@ -3,3 +3,9 @@ build-pdf:
 
 build-sota:
 	pandoc -N -V block-headings --citeproc --toc --toc-depth=4 --reference-links -o thomas_chaigneau_sota.pdf --from=markdown+tex_math_single_backslash+tex_math_dollars --to=latex --pdf-engine=xelatex --template=eisvogel content/index_sota.md content/report/03_sota.md
+
+build-diapo:
+	marp content/diapo_pco.md  -o content/diapo_pco.html
+
+build-pptx:
+	marp content/diapo_pco.md -o content/diapo_pco.pptx
