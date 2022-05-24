@@ -2,7 +2,7 @@
 title: "Make Us Rich"
 author: [Thomas Chaigneau]
 subtitle: "Outil de prédiction de l'évolution des cours des crypto-monnaies"
-date: \today
+date: \today, Brest
 keywords: [Machine Learning, Crypto-currency, Prediction]
 bibliography: "content/bibliography.bib"
 titlepage: true

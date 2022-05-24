@@ -4,7 +4,7 @@
 Dans cette première section, nous allons décrire les avancées de la modélisation IA et des algorithmes de prédiction
 sur des données temporelles. Ce ne sera malheureusement pas une liste exhaustive de toutes les options disponibles, ni
 un historique complet des différentes évolution des algorithmes de prédiction sur des séries temporelles, car cela est
-trop riche pour tenir dans ce rapport. 
+trop riche pour figurer dans ce rapport. 
 
 Nous allons donc nous concentrer sur les avancées les plus récentes et celles qui ont un rapport direct avec la solution
 envisagée dans ce projet. Commençons par un bref aperçu et historique de la tâche de prédiction à l'aide de données
@@ -14,7 +14,7 @@ temporelles.
 
 Les séries temporelles, ainsi que leur analyse, sont de plus en plus importantes en raison de la production massive de
 données dans le monde. Il y a donc un besoin, en constante augmentation, dans l'analyse de ces séries chronologiques
-avec des techniques statistiques et plus récemment d'apprentissage automatique.
+avec des techniques statistiques et plus récemment avec apprentissage automatique.
 
 L'analyse des séries chronologiques consiste à extraire des informations récapitulatives et statistiques significatives
 à partir de points classés par ordre chronologique. L'intérêt étant de diagnostiquer le comportement passé pour prédire
@@ -28,7 +28,7 @@ Il existe énormément de domaine d'application tels que la médecine, la mété
 nous intéresser ici, les marchés financiers et notamment celui des crypto-monnaies.
 
 Pour revenir à l'aspect historique, les organisations privées, et notamment bancaires, ont commencé à collecter des données
-par imitation du gouvernement américain qui collectait des données économiques publiques. Les premiers pionniers de
+par imitation du gouvernement américain qui collectait des données économiques publiques. Les pionniers de
 l'analyse des données chronologiques des cours de la bourse ont fait ce travail mathématique à la main, alors que de nos
 jours ce travail est réalisé avec l'assistance de méthodes analytiques et des algorithmes de *Machine Learning* [@nielsen_2019].
 
@@ -42,7 +42,7 @@ l'évolution des cours des marchés financiers.
 
 C'est ainsi que des méthodes historiques telles que *SARIMA* ou *ARIMA* se sont démocratisées. Elles présentent néanmoins un
 inconvénient : elles nécessitent des données stationnaires pour fonctionner. De plus, ces techniques statistiques dites
-historiques ont des résultats médiocres sur le long terme, et ainsi se sont développés d'autres méthodes d'apprentissage
+historiques ont des résultats médiocres sur le long terme. C'est pourquoi ce sont développés d'autres méthodes d'apprentissage
 automatique utilisant la puissance des réseaux de neurones, comme *RNN* (Recurrent Neural Network) [@rumelhart_1985].
 
 ## Fondamentaux des séries temporelles
@@ -59,7 +59,7 @@ assumer une grande variété de modèles. Nous utilisons la tendance pour estime
 plage typique de valeurs, que la variable doit avoir au cours du temps. On parle de tendance à la hausse ou à la baisse.
 * **Saisonnalité (S = Seasonal)** : est l'apparition de schémas de variations cycliques qui se répètent à des taux de 
 fréquence relativement constants.
-* **Résidu (R = Remainder)** : correspondent aux fluctuations à court terme qui ne sont ni systématiques ni prévisibles.
+* **Résidu (R = Remainder)** : corresponde aux fluctuations à court terme qui ne sont ni systématiques ni prévisibles.
 Au quotidien, des événements imprévus provoquent de telles instabilités. Concrètement, la composante résiduelle est ce 
 qui reste après l'estimation de la tendance et de la saisonnalité, et leur suppression d'une série chronologique.
 
@@ -86,7 +86,7 @@ avec pour conditions :
 
 - $\phi_{p} \ne 0$ et $\theta_{q} \ne 0$
 - $\Phi$ et $\Theta$ doivent être des polynômes de degrés respectifs $p$ et $q$, n'ont pas de racines communes et leurs
-    racines sont de modules > 1
+    racines sont de module > 1
 - $\epsilon_{t}$ est un BB de variance $\sigma^2$
 
 De même, un processus stationnaire $X_t$ admet une représentation $SARIMA(p, d, q)$ dite minimale si la relation suivante
@@ -106,7 +106,7 @@ Voici une représentation des différents modèles de prédiction :
 ![Liste non-exhaustive des modèles utilisés pour la prédiction de séries chronologiques. \label {fig:2.2}](./content/assets/timeseries-prediction-models.png){ width=200px, height=300px}
 
 Nous pourrions également ajouter à cette liste les très récents modèles basés sur l'architecture _Transformers_, comme
-**Temporal Fusion Transformers** (TFT) qui est un modèle de Google [@temporal_fusion] qui permet de combiner des données 
+**Temporal Fusion Transformers** (TFT) qui est un modèle de Google [@temporal_fusion] permettant de combiner des données 
 temporelles avec des données non temporelles, des données statiques comme des informations de localisation dans le cas de 
 prédictions météorologiques [@medium_temporal_fusion].
 
@@ -119,7 +119,7 @@ Les réseaux de neurones récurrents, ou *Recurrent Neural Network*, sont des ar
 dans beaucoup de cas d'usage. Ils sont appelés réseaux de neurones récurrents car ils sont capables de se réguler en
 fonction de la sortie des neurones précédents [@fund_rnn]. Ils sont notamment utilisés pour la prédiction de séries 
 temporelles, car ils permettent de prédire la valeur d'une variable à partir de ses valeurs précédentes. Ils sont 
-également à l'origine des architecture *Transformers* notamment pour les tâches de traduction en *NLP*.
+également à l'origine des architectures *Transformers* notamment pour les tâches de traduction en *NLP*.
 
 ### Architecture du réseau de neurones récurrents
 
@@ -196,7 +196,7 @@ plus petite.
 #### Cas de gradient qui disparaît 
 
 Concernant les phénomènes de gradient qui disparaissent, il est possible d'utiliser des *portes* de différents types, 
-souvent notées $Γ$ et sont définies par :
+souvent notées $Γ$ et qui sont définies par :
 
 $$
 Γ = σ(Wx^{<t>} + Ua^{<t-1>} + b)
@@ -210,7 +210,7 @@ Les portes sont utilisées dans les architectures plus spécifiques comme *GRU* 
 |-------------------|--------------------------------|--------|
 | Porte d'actualisation $Γ_{u}$ | Décide si l'état de la cellule doit être mis à jour avec la valeur d'activation en cours | GRU, LSTM |
 | Porte de pertinence $Γ_{r}$ | Décide si l'état de la cellule antérieure est important ou non | GRU, LSTM |
-| Porte d'oubli $Γ_{f}$ | Contrôle la quantité d'information qui est conservé ou oublié de la cellule antérieure | LSTM |
+| Porte d'oubli $Γ_{f}$ | Contrôle la quantité d'information qui est conservée ou oubliée de la cellule antérieure | LSTM |
 | Porte de sortie $Γ_{o}$ | Détermine le prochain état caché en contrôlant quelle quantité d'information est libérée par la cellule | LSTM |
 Table: Comparaison des différents types de portes et leurs rôles \label{tab:2.2}
 
@@ -273,7 +273,7 @@ Il faut discerner trois composantes importantes pour la structure de l'unité de
 #### Long Short-Term Memory (*LSTM*)
 
 Maintenant que nous avons vu plus en détails l'architecture générale des *RNNs*, ainsi que les particularités de *GRU*, il
-est temps d'aborder en détails les particularités de l'architecture de *LSTM*, qui sera l'architecture choisie par le 
+est temps d'aborder en détails les particularités de l'architecture de *LSTM*, qui sera l'architecture choisie pour le 
 projet final.
 
 En plus des deux portes d'actualisation et de pertinence, *LSTM* intègre une porte d'oubli $Γ_{f}$ et une porte de sortie $Γ_{o}$.

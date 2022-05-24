@@ -15,7 +15,7 @@ C'est donc avant tout un projet de passioné, mais aussi un formidable outil (en
 automatiser, déployer et mettre à disposition des modèles de *Deep Learning*. Sans plus attendre, je vous invite à 
 découvrir plus en détails le projet et son architecture présentée en introduction de ce dossier.
 
-Pour conserver une certaine lisibilité, les différents blocs de code sont numérotés entre paranthèses et leur détails 
+Pour conserver une certaine lisibilité, les différents blocs de code sont numérotés entre paranthèses et leurs détails 
 sont disponibles dans les annexes de ce rapport.
 
 ## Les données
@@ -33,17 +33,15 @@ le monde de l'échange de crypto-monnaies et elle dispose d'une *API* qui permet
 simplement et rapidement. Il suffit de disposer d'un compte sur *Binance* et de se générer un *token* d'accès pour pouvoir
 utiliser cette *API* de façon permanente et sans frais.
 
-*Binance* dispose également d'un package Python (`python-binance`) qui facilite les appels à son *API*. La classe `BinanceClient`[(1)]
+*Binance* dispose également d'un package Python (`python-binance`) qui facilite les appels à son *API*. La classe `BinanceClient`$^{(1)}$
 permet de gérer les interactions avec l'*API* de *Binance* et inclut des méthodes telles que la récupération de données
 sur cinq jours, un an ou une période à définir par l'utilisateur. Ces méthodes requièrent en argument un symbole de crypto-
-monnaie et une monnaie de comparaison dans tous les cas et renvoient les données sous forme de `pandas.DataFrame`.
-
-[(1)]: #annexe-1
+monnaie ainsi qu'une monnaie de comparaison et renvoient les données sous forme de `pandas.DataFrame`.
 
 ### Description des données
 
 Les données récupérées sont des séries temporelles de la crypto-monnaie cible comparée à une monnaie. Par exemple, je peux
-récupérer les données de la crypto-monnaie *BTC* par rapport à la monnaie *EUR* sur les 5 dernières jours avec un intervalle
+récupérer les données de la crypto-monnaie *BTC* par rapport à la monnaie *EUR* sur les 5 derniers jours avec un intervalle
 de 1 heure. 
 
 On compte 12 colonnes de données :
@@ -77,64 +75,55 @@ désignant les différentes étapes de *raffinage* des données pour qu'elles so
 #### Extraction des données utiles
 
 Tout d'abord, nous allons extraire les données utiles à partir de la série temporelle grâce à la fonction 
-`extract_features_from_dataset()`[(2)]. Pour cela, nous allons utiliser uniquement les colonnes `open`, `high`, `low`, `close` 
+`extract_features_from_dataset()`$^{(2)}$. Pour cela, nous allons utiliser uniquement les colonnes `open`, `high`, `low`, `close` 
 et `timestamp`. Nous stockons également la différence entre la valeur de clôture et la valeur d'ouverture pour chaque 
 intervalle sous le nom `close_change`.
 
-Ainsi à l'issu de cette étape, nous obtenons un nouveau `pandas.DataFrame` qui contient les *features* spécialement
+Ainsi à l'issue de cette étape, nous obtenons un nouveau `pandas.DataFrame` qui contient les *features* spécialement
 sélectionnées pour l'entraînement. Nous n'incluons pas les colonnes relatives aux volumes d'échange et aux trades, car
 c'est la prédiction de la valeur de clôture sur l'intervalle suivant qui nous intéresse ici. Il serait néanmoins possible
 d'inclure les notions de volumes dans l'entraînement, mais cela complexifierait le modèle et l'alourdirait pour un gain
 potentiel à déterminer.
 
-[(2)]: #annexe-2
-
 #### Séparation des jeux de données
 
 Une fois nos *features* sélectionnées, nous allons séparer les données en trois jeux de données distincts grâce à la 
-fonction `split_data()`[(3)]. La séparation consiste à diviser les données en deux jeux de données : 
+fonction `split_data()`$^{(3)}$. La séparation consiste à diviser les données en deux jeux de données : 
 
 * `training_set` : 90%
 * `test_set` : 10%
 
-Pour des données temporelles il est important de ne pas mélanger la chronologie des données puisque cela peut créer des 
+Pour des données temporelles il est impératif de ne pas mélanger la chronologie des données puisque cela peut créer des 
 problèmes de cohérence. En effet, nous voulons que le modèle puisse prédire les valeurs de clôture sur l'intervalle suivant 
 et non pas sur des intervalles passés.
 
-[(3)]: #annexe-3
-
 #### Mise à l'échelle des données
 
-Il est important de mettre à l'échelle les données pour que le modèle puisse les utiliser correctement. Pour cela, nous
-allons utiliser la fonction `scale_data()`[(4)]. Cette fonction va permettre de normaliser les données pour qu'elles soient
+Il est primordial de mettre à l'échelle les données pour que le modèle puisse les utiliser correctement. Pour cela, nous
+allons utiliser la fonction `scale_data()`$^{(4)}$. Cette fonction va permettre de normaliser les données pour qu'elles soient
 comprises entre -1 et 1 pour nos deux jeux de données. C'est une technique de normalisation qui permet de réduire
 les écarts entre les données et ainsi les rendre plus facile à manipuler par le modèle lors de l'entraînement.
 
 On utilise ici la méthode de normalisation `MinMaxScaler` de la librairie `scikit-learn`. Il est important de noter que nous
 sauvegardons également cet objet de normalisation dans un fichier *pickle* pour pouvoir l'utiliser plus tard lors de
 l'inférence via l'*API*. En effet, puisque le modèle est entraîné sur des données normalisées, il est primordial qu'elles 
-le soient également lors des prédictions postérieures. De plus, nous avons besoin de cet objet pour pouvoir inverser la
+le soient également lors des prédictions ultérieures. De plus, nous avons besoin de cet objet pour pouvoir inverser la
 normalisation des données prédites et obtenir des valeurs de clôture réelles, c'est-à-dire des valeurs de clôture non
 normalisées.
-
-[(4)]: #annexe-4
 
 #### Préparation des séquences de données
 
 Il ne reste plus qu'à préparer les données pour qu'elles soient utilisables par le modèle. Pour cela, nous allons devoir
-créer des séquences de données. Pour cela, nous allons utiliser la fonction `create_sequences()`[(5)]. Cette fonction va
+créer des séquences de données à l'aide de la fonction `create_sequences()`$^{(5)}$. Cette fonction va
 utiliser les données préalablement normalisées pour créer des séquences de données de taille `sequence_length`.
 
-C'est à cette étape que nous construisons les *features* d'entrée du modèle et la *target* de sortie, aussi appelé *label*.
+C'est à cette étape que nous construisons les *features* d'entrée du modèle et la *target* de sortie, aussi appelée *label*.
 Dans notre cas, nous utiliserons la colonne `close` comme *target* et le reste des colonnes comme *features*.
 
 Il est à noter que nous allons séparer les données du `training_set` en deux séquences de données distinctes pour avoir
-également des séquences de données pour la validation du modèle, grâce à la fonction `split_train_and_val_sequences()`[(6)]. 
+également des séquences de données pour la validation du modèle, grâce à la fonction `split_train_and_val_sequences()`$^{(6)}$. 
 Nous utiliserons comme taille `val_size=0.2` pour la validation du modèle, ce qui représente 18% des données totales 
 attribuées pour la validation du modèle.
-
-[(5)]: #annexe-5
-[(6)]: #annexe-6
 
 ## Modélisation
 
@@ -148,9 +137,9 @@ du code *PyTorch*, ce qui va nous aider pour le déploiement et le service de no
 
 Nous allons commencer par décrire l'architecture du modèle qui se compose de deux parties complémentaires :
 
-* Un premier module `LSTMRegressor`[(7)] qui définit la structure du modèle, les hyperparamètres, ainsi que les différentes
+* Un premier module `LSTMRegressor`$^{(7)}$ qui définit la structure du modèle, les hyperparamètres, ainsi que les différentes
 étapes d'inférence via un `nn.Module` de *PyTorch*.
-* Un second module `PricePredictor`[(8)] qui hérite de l'architecture du premier module et qui va permettre de définir
+* Un second module `PricePredictor`$^{(8)}$ qui hérite de l'architecture du premier module et qui va permettre de définir
 les étapes d'entraînement, de validation, de test, le *learning rate* et la fonction de *loss* du modèle.
 
 La fonction de *loss* du modèle est la fonction de coût qui va permettre de déterminer la qualité du modèle. Nous utilisons
@@ -158,13 +147,8 @@ la fonction de coût `nn.MSELoss()` de la librairie *PyTorch* qui va nous permet
 squared error*, en anglais) entre la valeur prédite et la valeur réelle.
 
 Pour l'entraînement du modèle, nous utiliserons un *Dataloader* qui va permettre de charger les données en batchs. C'est
-la classe `LSTMDataLoader`[(9)] qui hérite de `CryptoDataset`[(10)] qui va s'occuper de charger et de distribuer les
+la classe `LSTMDataLoader`$^{(9)}$ qui hérite de `CryptoDataset`$^{(10)}$ qui va s'occuper de charger et de distribuer les
 batchs de données lors des différentes phases d'entraînement, validation et test.
-
-[(7)]: #annexe-7
-[(8)]: #annexe-8
-[(9)]: #annexe-9
-[(10)]: #annexe-10
 
 ### Choix des hyperparamètres
 
@@ -198,7 +182,7 @@ training:
 
 ### Entraînements et monitoring
 
-L'entraînement du modèle se fait via la méthode `training_loop()`[(11)] qui instancie les classes : `LSTMDataLoader`, 
+L'entraînement du modèle se fait via la méthode `training_loop()`$^{(11)}$ qui instancie les classes : `LSTMDataLoader`, 
 `PricePredictor` utilisées par `Trainer` qui est la classe `Trainer` de *PyTorch-Lightning* qui gère l'entraînement.
 
 Nous utilisons une *seed* pour figer l'aléatoire du modèle, via la fonction `seed_everything` de la librairie 
@@ -211,19 +195,16 @@ Nous utilisons une *seed* pour figer l'aléatoire du modèle, via la fonction `s
     nombre d'*epochs*. Ici, nous utilisons une *patience* de 2 *epochs*.
 
 Dans les deux cas, nous utilisons les valeurs de *loss* de validation, que l'on cherche à minimiser, pour déterminer les
-poids les plus performants et s'il faut continuer ou stopper l'entraînement.
+poids les plus performants et savoir s'il faut continuer ou stopper l'entraînement.
 
 En ce qui concerne le *monitoring* et le *logging*, nous utilisons la classe `WandbLogger` de *Wandb* incluse dans la
 librairie *PyTorch-Lightning* qui va nous permettre de stocker les hyperparamètres, l'environnement et toutes les métriques
 de notre modèle directement sur *Wandb*.
 
 *Wandb* est un outil de monitoring qui permet de stocker l'historique des entraînements de nos modèles et de comparer les
-différents modèles. C'est cette plateforme que nous avons privilégié pour l'expérimentation et le monitoring de nos modèles.
+différents modèles. C'est cette plateforme que nous avons privilégiée pour l'expérimentation et le monitoring de nos modèles.
 J'ai donc créé un projet sur *Wandb* pour *Make-Us-Rich* et connecté le pipeline d'entraînement pour que tout soit stocké
-directement sur *Wandb*[(12)].
-
-[(11)]: #annexe-11
-[(12)]: #annexe-12
+directement sur *Wandb*$^{(12)}$.
 
 ### Validation du modèle
 
@@ -239,7 +220,7 @@ et plus la précision du modèle diminue et donc plus le taux d'erreur, la *loss
 ### Conversion vers ONNX
 
 Nous avons fait le choix d'inclure une étape de conversion automatique du modèle en *ONNX* afin de faciliter la prise en
-charge de ce modèle par d'autres applications et également un optimisation du temps d'inférence lors du service des modèles
+charge de ce modèle par d'autres applications et également une optimisation du temps d'inférence lors du service des modèles
 via *API*.
 
 En effet le format *ONNX* (*Open Neural Network Exchange*) est un format de représentation de modèle standardisé qui permet, 
@@ -247,13 +228,10 @@ notamment sur *CPU*, de réduire les temps de calcul des modèles [@chaigneau_20
 pouvoir convertir le modèle en *ONNX* et valider que le modèle converti est conforme au modèle original, surtout au 
 niveau de la précision des prédictions. 
 
-La première fonction `convert_model()`[(13)] permet la conversion du modèle en *ONNX* et son stockage avant validation. 
-La seconde fonction `validate_model()`[(14)] assure que le modèle converti est valable d'un point de vue architecture et 
+La première fonction `convert_model()`$^{(13)}$ permet la conversion du modèle en *ONNX* et son stockage avant validation. 
+La seconde fonction `validate_model()`$^{(14)}$ assure que le modèle converti est valable d'un point de vue architecture et 
 noeuds des graphiques, ainsi qu'au niveau de la précision par rapport au modèle *PyTorch* original. La différence entre 
 les deux prédictions doit respecter une tolérance absolue de $10^{-5}$ et une tolérance relative de $10^{-3}$.
-
-[(13)]: #annexe-13
-[(14)]: #annexe-14
 
 ### Stockage des modèles et des *features engineering*
 
@@ -262,17 +240,14 @@ nous souhaitons conserver, c'est une base de données orientée vers le stockage
 *Google Cloud Storage* ou *Azure Blob Storage*. Dans notre cas, nous utilisons *Minio* pour stocker nos données, car c'est
 l'équivalent de *AWS S3* mais hébergeable n'importe où sur le web ou en local.
 
-C'est grâce à la fonction `upload_files()`[(15)] que nous allons pouvoir stocker nos modèles et les *features engineering* qui
+C'est grâce à la fonction `upload_files()`$^{(15)}$ que nous allons pouvoir stocker nos modèles et les *features engineering* qui
 sont associées dans un répertoire unique de notre base de données. Ainsi, ils seront accessibles par la suite par l'*API*
 pour leur utilisation. Dans notre, cas c'est uniquement le `MinMaxScaler` qui est stocké dans notre base de données au 
 format *pickle*.
 
 Enfin, afin de s'assurer que les fichiers générés par l'entraînement d'un modèle sont supprimés et ainsi permettre de 
 conserver de l'espace disque sur la machine qui réalise l'entraînement, nous utilisons une fonction de nettoyage de tous 
-les fichiers locaux qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipeline nommée `clean_files()`[(16)].
-
-[(15)]: #annexe-15
-[(16)]: #annexe-16
+les fichiers locaux qui ne sont plus utilisés. Ceci est réalisé par la dernière fonction du pipeline nommée `clean_files()`$^{(16)}$.
 
 ## Service des modèles
 
@@ -301,10 +276,7 @@ via des fichiers *Dockerfile* et *Docker Compose*.
 
 Le *Dockerfile* est un fichier de configuration qui permet de définir les instructions de création d'un container spécifique,
 et le *Docker Compose* est un fichier de configuration qui permet de définir les instructions de déploiement de plusieurs
-containers. Nous avons donc plusieurs fichiers pour l'interface utilisateur[(17)] et un *Dockerfile* pour l'*API*[(18)].
-
-[(17)]: #annexe-17
-[(18)]: #annexe-18
+containers. Nous avons donc plusieurs fichiers pour l'interface utilisateur $^{(17)}$ et un *Dockerfile* pour l'*API*$^{(18)}$.
 
 ### Présentation de l'API
 
@@ -314,17 +286,15 @@ tout comme un utilisateur de bureau peut demander une prédiction à l'*API* via
 De cette manière, nous pouvons rendre accessible le modèle de prédiction à tous les utilisateurs.
 
 L'*API* est composée de plusieurs *endpoints*. Chaque *endpoint* est défini par une URL et une méthode HTTP. Lorsque l'on
-souhaite accèder à l'*API*, nous arrivons directement sur la documentation des différents *endpoints*[(19)].
-
-[(19)]: #annexe-19
+souhaite accèder à l'*API*, nous arrivons directement sur la documentation des différents *endpoints*$^{(19)}$.
 
 #### Gestion des modèles
 
-Les différents modèles de prédictions sont chargés par l'*API* grâce à la classe qui les gère, `ModelLoader`[(20)]. Cette
+Les différents modèles de prédictions sont chargés par l'*API* grâce à la classe qui les gère, `ModelLoader`$^{(20)}$. Cette
 classe de gestion du chargement des modèles et de leur prédiction va permettre une flexibilité totale au niveau du nombre 
-de modèle disponible, leurs *features engineering* spécifiques et leurs informations respectives.
+de modèles disponibles, leurs *features engineering* spécifiques et leurs informations respectives.
 
-La classe `ModelLoader` se base sur une autre classe `ONNXModel`[(21)] qui va être le squelette de base pour chacun des 
+La classe `ModelLoader` se base sur une autre classe `ONNXModel`$^{(21)}$ qui va être le squelette de base pour chacun des 
 modèles de prédictions. Ainsi, cette base permet à chaque modèle de fonctionner de la même manière peu importe la crypto-monnaie
 sur laquelle il est basé.
 
@@ -332,28 +302,22 @@ Nous avons donc une classe qui permet le fonctionnement de chaque modèle de fa�
 d'orchestrer l'ensemble des modèles de prédictions pour qu'ils soient mis à jour et disponibles pour tous les utilisateurs
 via les différents endpoints de l'*API*.
 
-[(20)]: #annexe-20
-[(21)]: #annexe-21
-
 #### Les endpoints de l'API
 
-Les endpoints de l'*API* sont au nombre de six, avec trois endpoints avec une méthode *PUT* et trois endpoints plus 
+Les endpoints de l'*API* sont au nombre de six, dont trois endpoints avec une méthode *PUT* et trois endpoints plus 
 utilitaires disposant d'une méthode *GET*.
 
-* Endpoints de *serving* [(22)])]:
+* Endpoints de *serving* $^{(22)}$:
     * `/predict` : permet de récupérer la prédiction d'un modèle d'une crypto-monnaie comparée à une monnaie.
     * `/update_models` : permet de mettre à jour les modèles de prédiction avec les derniers fichiers disponibles dans la
     base de données.
     * `/update_date` : permet de mettre à jour la date de la dernière mise à jour des modèles, important pour assurer que
     l'*API* met toujours à disposition les derniers modèles de prédiction.
 
-* Endpoints de *monitoring* [(23)]:
+* Endpoints de *monitoring* $^{(23)}$:
     * `/check_models_number` : permet de vérifier le nombre de modèles disponibles sur l'*API*.
     * `/healthz` : permet de vérifier le bon fonctionnement de l'*API*. Indispensable si orchestration via *Kubernetes*.
     * `/readyz` : permet de vérifier la disponibilité de l'*API*. Indispensable si orchestration via *Kubernetes*.
-
-[(22)]: #annexe-22
-[(23)]: #annexe-23
 
 ## Interface utilisateur
 
@@ -363,20 +327,16 @@ combiné avec une base de données relationnelles *PostgreSQL* pour assurer l'au
 
 ### Présentation de l'interface utilisateur
 
-Pour pouvoir accéder à l'interface utilisateur, l'utilisateur doit être authentifié[(24)]. Pour cela, il doit être enregistré
+Pour pouvoir accéder à l'interface utilisateur, l'utilisateur doit être authentifié $^{(24)}$. Pour cela, il doit être enregistré
 dans la base de données. Si l'utilisateur se connecte pour la première fois, il sera automatiquement enregistré et un 
 jeton d'authentification sera créé avec une validité de dix jours.
 
 Une fois authentifié, l'utilisateur peut avoir accès à l'application *Streamlit* sur laquelle il peut afficher les courbes des 
 différentes crypto-monnaies comparées à une monnaie. Il peut également choisir la crypto-monnaie à comparer et les modèles de 
-prédiction à afficher[(25)]. 
+prédiction à afficher $^{(25)}$. 
 
 Si l'utilisateur le souhaite, il peut également récupérer un token qui lui permettra d'utiliser l'*API* pour récupérer les
-prédictions directement sans passer par l'interface utilisateur[(26)].
-
-[(24)]: #annexe-24
-[(25)]: #annexe-25
-[(26)]: #annexe-26
+prédictions directement sans passer par l'interface utilisateur $^{(26)}$.
 
 ### Présentation de la base de données relationnelles
 
@@ -391,9 +351,9 @@ cinq tables :
 
 ![Schéma de la base de données relationnelle des utilisateurs de l'application \label {fig:3.1}](./content/assets/bdd-postgresql.png){ width=320px, height=300px }
 
-La base de données *PostgreSQL* est initialisée au déploiement avec toutes ces tables via un fichier `init.sql`[(27)].
-
-[(27)]: #annexe-27
+La base de données *PostgreSQL* est initialisée au déploiement avec toutes ces tables via un fichier `init.sql`$^{(27)}$.
+Les insertions dans cette base de données ainsi que les requêtes sont gérées par l'interface grâce à la classe 
+`DatabaseHandler`$^{(28)}$.
 
 ### Explication du fonctionnement des tokens
 
@@ -410,15 +370,15 @@ sur des serveurs différents. Nous avons déjà évoqué le fait que les composa
 utilisent la puissance de *Docker* pour leur déploiement, mais il y a également la partie *training* qui se veut automatisée
 grâce à *Prefect*.
 
-L'ensemble du code est packagée grâce à *pypi* ce qui permet à n'importe qui d'installer le projet via la commande
+L'ensemble du code est packagé grâce à *pypi* ce qui permet à n'importe qui d'installer le projet via la commande
 `pip install make-us-rich` et de commencer à déployer les composants du projet selon ses besoins.
 
 ### Utilisation de Prefect
 
-Nous avons décidé d'utiliser la librairie *Prefect*[(28)] pour l'automatisation du pipeline d'entraînement des modèles de 
+Nous avons décidé d'utiliser la librairie *Prefect*$^{(29)}$ pour l'automatisation du pipeline d'entraînement des modèles de 
 prédiction. Cette librairie est un *ETL (Extract Transform Load)* qui permet de définir des *flows* et des *tasks* qui seront 
-automatiquement exécutés selon les instructions définies[(29)]. Dans notre cas, nous avons défini un *flow* pour chaque crypto-monnaie
-pour laquelle nous souhaitons entraîner un modèle de prédiction[(30)].
+automatiquement exécutés selon les instructions définies $^{(30)}$. Dans notre cas, nous avons défini un *flow* pour chaque crypto-monnaie
+pour laquelle nous souhaitons entraîner un modèle de prédiction $^{(31)}$.
 
 L'avantage c'est que tout cet enchaînement d'actions bénéficie d'une interface de visualisation des fonctionnalités
 pour relancer une tâche qui aurait planté ou pour tout simplement voir le détail d'une tâche et son avancement.
@@ -426,10 +386,6 @@ pour relancer une tâche qui aurait planté ou pour tout simplement voir le dét
 Le `scheduler` de *Prefect* est aussi très utile puisque nous avons besoin de définir des tâches qui seront exécutées
 à intervalles réguliers (toutes les heures), ces intervalles peuvent être modifiés très simplement sans avoir besoin de 
 tout changer.
-
-[(28)]: #annexe-28
-[(29)]: #annexe-29
-[(30)]: #annexe-30
 
 ### Documentation du projet
 
@@ -439,14 +395,11 @@ d'expliquer comment les déployer pour l'utilisateur. Elle permet également de 
 du package *Python* du projet.
 
 Pour rédiger la documentation, nous avons utilisé la librairie *Mkdocs-material* qui permet de générer un site web à partir
-d'un fichier *yaml*[(31)] décrivant le contenu du projet et de fichiers markdown contenant le contenu de chaque page.
+d'un fichier *yaml*$^{(32)}$ décrivant la configuration du projet et des fichiers markdown qui composeront le contenu de chaque page.
 
 Le déploiement de la documentation est également automatisé via *GitHub-Action* qui permet de définir des actions de 
 déploiement automatiques à chaque fois qu'un changement est apporté au code du projet. Les instructions doivent être mises
-dans un dossier `.github/workflows/`[(32)] du projet.
-
-[(31)]: #annexe-31
-[(32)]: #annexe-32
+dans un dossier `.github/workflows/`$^{(33)}$ du projet.
 
 ### Alerting
 
@@ -461,12 +414,10 @@ qui se charge de la maintenance du projet. C'est un service gratuit de messageri
 ### Méthodologie et organisation
 
 Pour mener à bien ce projet, nous avons décidé d'utiliser l'outil de méthodologie agile intégré à *GitHub* qui est un tableau 
-*Kanban*[(33)] sur lequel j'ai différencié les tâches selon trois status : *To Do*, *In Progress* et *Done*. Les tâches ont été
-définies en amont par rapport aux objectifs du projet et également au fil du projet pour venir combler des manques ou des besoins
-qui n'avaient pas été pensés en amont.
+*Kanban*$^{(34)}$ sur lequel nous avons différencié les tâches selon trois status : *To Do*, *In Progress* et *Done*. Les 
+tâches ont été définies en amont par rapport aux objectifs du projet et également au fil du projet pour venir combler des 
+manques ou des besoins qui n'avaient pas été pensés en amont.
 
-Les tâches ont été différenciées par des *tags* qui visent à classer les tâches dans des catégories : *documentation*, *AI feature*,
+Les tâches ont été différenciées par des *tags* qui visent à les classer dans des catégories : *documentation*, *AI feature*,
 *bug*, *dev*, *feature*, *front-end*, *main feature*. Ces différenciations permettent de rapidement voir à quoi va servir la tâche
 et aussi se donner une idée sur les tâches prioritaires par rapport à l'ensemble des tâches à faire.
-
-[(33)]: #annexe-33

@@ -12,7 +12,7 @@ j'aurais vraiment adoré faire un projet avec des modèles *Transformers* sur le
 sur des projets personnels et open source. Ayant très rapidement terminé l'aspect technique du projet et ayant plusieurs 
 fois ajouté des briques au projet **Make Us Rich**, je n'ai pas voulu changer de sujet.
 
-Je pense que la partie modélisation et évaluation des modèles doit être poussé concernant le projet **Make Us Rich** et 
+Je pense que la partie modélisation et évaluation des modèles doit être poussée concernant le projet **Make Us Rich** et 
 qu'il serait intéressant de proposer à l'utilisateur plusieurs architectures de modèles à choisir pour afficher les
 prédictions.
 
@@ -23,11 +23,11 @@ que l'entraînement de modèles *GANs*, le *fine-tuning* d'un modèle *BERT* ou 
 
 Ce projet m'a également permis de comprendre que le développement de projet de *Data Science* me plaisait et je souhaite
 poursuivre ma carrière dans ce domaine, en tant que *Machine Learning Engineer* pour pouvoir aussi bien travailler sur de
-la modélisation, du déploiement et la création de services IA.
+la modélisation, du déploiement et de la création de services IA.
 
 J'ai également pu développer une appétence pour l'open source et son écosystème. Il y a des ressources infinies sur des
 plateformes comme *GitHub* qui permettent de progresser et également de participer pour développer des projets toujours
-plus grand.
+plus grands.
 
 Si je devais continuer le projet, je serais très intéressé pour intégrer une implémentation d'une architecture *Transformers*
 telle que *TFT* de *Google*. Il serait également intéressant de pousser le déploiement sur internet et d'y ajouter un

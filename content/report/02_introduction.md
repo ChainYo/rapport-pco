@@ -18,12 +18,12 @@ prédictions automatiques sur ses actifs qui soient un minimum fiables ?
 ## Objectifs
 
 Développer une architecture permettant l'entraînement automatique de modèles de prédiction de l'évolution des cours
-des crypto-monnaies, le service de ces modèles via une *API* ainsi qu'une interface web permettant de visualiser
-les prédictions et l'évolution des cours des crypto-monnaies par l'utilisateur.
+des crypto-monnaies. Mais aussi développer le service de ces modèles via une *API* ainsi qu'une interface web permettant 
+de visualiser les prédictions et l'évolution des cours des crypto-monnaies par l'utilisateur.
 
 ## Approche de la solution
 
-Le projet se décompose en trois composants distincts et qui interagissent entre eux pour former la solution complète :
+Le projet se décompose en trois composants distincts qui interagissent entre eux pour former la solution complète :
 
 * **Interface** : l'interface web permettant à l'utilisateur de visualiser les prédictions et l'évolution des cours
 des crypto-monnaies.
@@ -40,8 +40,8 @@ différents composants et leurs fonctions dans la seconde partie de ce rapport.
 ## Contributions et réalisations
 
 Tout ce qui est présenté dans le schéma d'architecture ci-dessus est fonctionnel et déployé. Les composants sont développés
-en utilisant le langage de programmation Python et différents outils et librairies très utiles comme *FastAPI*, 
-*Pytorch-Lightning*, *Scikit-learn*, etc.
+en utilisant le langage de programmation Python et différents outils et librairies très utiles dans ce contexte comme 
+*FastAPI*, *Pytorch-Lightning*, *Scikit-learn*, etc.
 
 Le projet est open-source et est accessible sur *GitHub* : [Make Us Rich](https://github.com/ChainYo/make-us-rich).
 
