@@ -80,5 +80,17 @@ timestamp, open, high, low, close, volume, close_time, quote_av, trades, tb_base
 ---
 <!-- _class: lead -->
 
+# Normalisation des données
+
+```python
+sklearn.preprocessing.MinMaxScaler(
+    feature_range=(-1, 1)
+    )
+
+# X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
+# X_scaled = X_std * (max - min) + min
+# où min = -1 et max = 1
+```
+
 ---
 <!-- _class: lead -->
