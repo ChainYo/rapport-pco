@@ -44,8 +44,41 @@ Qu'est ce que
 ![width:800px](./assets/project-architecture.png)
 
 ---
-
 # Démonstration 🎥
+
+---
+<!-- _class: lead -->
+
+![bg right](./assets/cryptos.jpg)
+
+### <!--fit--> Crypto-monnaies et données
+
+**Binance API:**
+timestamp, open, high, low, close, volume, close_time, quote_av, trades, tb_base_av, tb_quote_av, ignore
+
+---
+<!-- _class: lead -->
+
+![bg right](./assets/cryptos.jpg)
+
+### <!--fit--> Crypto-monnaies et données
+
+**Binance API:**
+* *timestamp*
+* *open*
+* *high*
+* *low*
+* *close_change* $_{(close - open)}$
+* **close**
+
+---
+
+### <!--fit--> Répartition des données
+
+![width:1000px](./assets/dataset_split.png)
+
+---
+<!-- _class: lead -->
 
 ---
 <!-- _class: lead -->
