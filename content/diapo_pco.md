@@ -22,13 +22,30 @@ training and serving models made automatic
 ## Sommaire
 
 1. Qu'est-ce que `Make Us Rich` ❓
-2. Crypto-monnaies et données
-3. Les RNNs: GRU & LSTM
-4. Entraînement 🏋️‍♀️
-5. Stockage et base de données
-6. API et serving
-7. Interface utilisateur
-8. Démonstration 🎥
+2. Démonstration 🎥
+3. Crypto-monnaies et données
+4. Les RNNs: GRU & LSTM
+5. Entraînement 🏋️‍♀️
+6. Stockage et base de données
+7. API et serving
+8. Interface utilisateur
 9. Conclusion
 
 ---
+
+![bg left](./assets/forecasting-charts.jpg)
+
+Qu'est ce que 
+`Make Us Rich` ❓
+
+---
+<!-- _class: lead -->
+##### Architecture du projet
+![width:800px](./assets/project-architecture.png)
+
+---
+
+# Démonstration 🎥
+
+---
+<!-- _class: lead -->
