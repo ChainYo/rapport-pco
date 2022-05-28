@@ -94,3 +94,28 @@ sklearn.preprocessing.MinMaxScaler(
 
 ---
 <!-- _class: lead -->
+
+Création de séquences à partir des données normalisées
+
+![bg left](./assets/create-sequences.png)
+
+---
+<!-- _class: lead -->
+
+# Les RNNs: GRU & LSTM
+
+![width:1400px](./assets/rnn-architecture.png)
+
+Architecture d'un RNN
+
+---
+<!-- _class: lead -->
+# Les RNNs: GRU & LSTM
+
+![width:950px](./assets/lstm-vs-gru.png)
+
+---
+<!-- _class: lead -->
+
+---
+<!-- _class: lead -->
