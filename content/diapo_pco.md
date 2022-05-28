@@ -71,11 +71,6 @@ timestamp, open, high, low, close, volume, close_time, quote_av, trades, tb_base
 * *close_change* $_{(close - open)}$
 * **close**
 
----
-
-### <!--fit--> Répartition des données
-
-![width:1000px](./assets/dataset_split.png)
 
 ---
 <!-- _class: lead -->
@@ -95,7 +90,7 @@ sklearn.preprocessing.MinMaxScaler(
 ---
 <!-- _class: lead -->
 
-Création de séquences à partir des données normalisées
+#### Création de séquences à partir des données normalisées
 
 ![bg left](./assets/create-sequences.png)
 
@@ -116,6 +111,21 @@ Architecture d'un RNN
 
 ---
 <!-- _class: lead -->
+
+## Entraînement
+
+![](./assets/pytorch-lightning-logo.png) 
+## +
+![](./assets/wandb-logo.png)
+
+![bg right](./assets/training.jpg)
+
+
+---
+
+### <!--fit--> Répartition des données
+
+![width:1000px](./assets/dataset_split.png)
 
 ---
 <!-- _class: lead -->
