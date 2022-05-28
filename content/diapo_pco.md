@@ -120,12 +120,69 @@ Architecture d'un RNN
 
 ![bg right](./assets/training.jpg)
 
+---
+<!-- _class: lead -->
 
+## Fonction coût à minimiser
+
+`torch.nn.MSELoss()`
+
+$$
+l_{n} = (x_{n} - y_{n})^{2}
+$$
 ---
 
 ### <!--fit--> Répartition des données
 
 ![width:1000px](./assets/dataset_split.png)
+
+(8.64 mois, 2.16 mois et 1.2 mois)
+
+
+---
+<!-- _class: lead -->
+
+## Hyperparamètres
+
+```yaml
+train_batch_size: 64
+val_batch_size: 1
+train_workers: 2
+val_workers: 1
+max_epochs: 100
+hidden_size: 128
+number_of_features: 9
+number_of_layers: 2
+dropout_rate: 0.2
+learning_rate: 0.0001
+log_n_steps: 2
+run_on_gpu: True # False if running on CPU
+wandb_project: "make-us-rich"
+```
+
+---
+<!-- _class: lead -->
+
+## Training Loop
+
+![bg left](./assets/training-loop.png)
+
+* seed + logger
+* model
+* data module
+* trainer
+
+---
+<!-- _class: lead -->
+
+---
+<!-- _class: lead -->
+
+---
+<!-- _class: lead -->
+
+---
+<!-- _class: lead -->
 
 ---
 <!-- _class: lead -->
