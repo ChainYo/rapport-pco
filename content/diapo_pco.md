@@ -7,6 +7,10 @@ marp: true
 paginate: true
 theme: uncover
 class: invert
+style: |
+  video::-webkit-media-controls {
+    will-change: transform;
+  }
 ---
 
 # Make Us Rich
@@ -45,6 +49,8 @@ Qu'est ce que
 
 ---
 # Démonstration 🎥
+
+[![Make Us Rich Demo](http://img.youtube.com/vi/u0jEt9UfI0I/0.jpg)](http://www.youtube.com/watch?v=u0jEt9UfI0I "Make Us Rich Demo")
 
 ---
 <!-- _class: lead -->
