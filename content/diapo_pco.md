@@ -169,9 +169,11 @@ wandb_project: "make-us-rich"
 ---
 <!-- _class: lead -->
 
+![width:120px](./assets/pytorch-lightning-logo.png)
+![bg left](./assets/training-loop.png)
+
 ## Training Loop
 
-![bg left](./assets/training-loop.png)
 
 * seed + logger
 * model
@@ -181,11 +183,30 @@ wandb_project: "make-us-rich"
 ---
 <!-- _class: lead -->
 
----
-<!-- _class: lead -->
+![](./assets/wandb-logo.png)
+![bg right](./assets/wandb-summary.png)
+## Métriques
+
+Monitoring des métriques d'entraînement
 
 ---
 <!-- _class: lead -->
+
+## Stockage et base de données
+
+* Fichiers modèles et features engineering
+![width:300px](./assets/minio-logo.png)
+* Utilisateurs de l'interface et API
+![width:400px](./assets/postgresql-logo.png)
+
+---
+<!-- _class: lead -->
+
+## Base de données relationnelle
+
+`many-to-many`
+
+![bg left width:720px](./assets/bdd-postgresql.png)
 
 ---
 <!-- _class: lead -->
