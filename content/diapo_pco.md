@@ -119,6 +119,13 @@ Architecture d'un RNN
 ---
 <!-- _class: lead -->
 
+## Pourquoi LSTM ❓
+
+![](./assets/validation-lstm-model.png)
+
+---
+<!-- _class: lead -->
+
 ## Entraînement
 
 ![](./assets/pytorch-lightning-logo.png) 
@@ -205,8 +212,6 @@ Monitoring des métriques d'entraînement
 
 ## Base de données relationnelle
 
-`many-to-many`
-
 ![bg left width:720px](./assets/bdd-postgresql.png)
 
 ---
@@ -254,6 +259,13 @@ Monitoring des métriques d'entraînement
 <!-- _class: lead -->
 
 ![bg height:900px](./appendix/26.png)
+
+---
+<!-- _class: lead -->
+
+## Organisation
+
+![width:900px](./appendix/34.png)
 
 ---
 
