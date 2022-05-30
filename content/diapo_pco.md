@@ -79,8 +79,8 @@ timestamp, open, high, low, close, volume, close_time, quote_av, trades, tb_base
 * *open*
 * *high*
 * *low*
-* *close_change* $_{(close - open)}$
 * **close**
+* *close_change* $_{(close - open)}$
 
 
 ---
