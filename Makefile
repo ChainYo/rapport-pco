@@ -8,4 +8,4 @@ build-diapo:
 	marp content/diapo_pco.md  -o content/diapo_pco.html
 
 build-pptx:
-	marp content/diapo_pco.md -o content/diapo_pco.pptx
+	marp content/diapo_pco.md -o content/diapo_pco.pptx --allow-local-files
