@@ -121,7 +121,7 @@ Architecture d'un RNN
 
 ## Pourquoi LSTM ❓
 
-![](./assets/validation-lstm-model.png)
+![width:1200px](./assets/validation-lstm-model.png)
 
 ---
 <!-- _class: lead -->
