@@ -55,6 +55,11 @@ Qu'est ce que
 ---
 <!-- _class: lead -->
 
+![height:700px](./assets/training-pipeline.png)
+
+---
+<!-- _class: lead -->
+
 ![bg right](./assets/cryptos.jpg)
 
 ### <!--fit--> Crypto-monnaies et données
@@ -83,15 +88,11 @@ timestamp, open, high, low, close, volume, close_time, quote_av, trades, tb_base
 
 # Normalisation des données
 
-```python
-sklearn.preprocessing.MinMaxScaler(
-    feature_range=(-1, 1)
-    )
+![height:200px](./assets/sklearn-minmaxscaler.png)
 
-# X_std = (X - X.min(axis=0)) / (X.max(axis=0) - X.min(axis=0))
-# X_scaled = X_std * (max - min) + min
-# où min = -1 et max = 1
-```
+$$
+x' = 2\frac{x - min(x)}{max(x) - min(x)} - 1
+$$
 
 ---
 <!-- _class: lead -->
@@ -211,5 +212,56 @@ Monitoring des métriques d'entraînement
 ---
 <!-- _class: lead -->
 
+## Serving via API
+
+![bg right height:700px](./assets/serving-part.png)
+
 ---
 <!-- _class: lead -->
+
+## Gestion des modèles
+
+![width:1000px](./assets/model-classes.png)
+
+---
+<!-- _class: lead -->
+
+## Les Endpoints
+
+![width:1200px](./appendix/19.png)
+
+---
+
+## L'interface utilisateur
+
+![bg left width:650px](./assets/interface-part.png)
+
+---
+<!-- _class: lead -->
+
+### Authentification
+
+![bg right height:600px](./appendix/24.png)
+
+---
+<!-- _class: lead -->
+
+### Graphiques avec prédictions
+
+![bg left height:800px](./appendix/25.png)
+
+---
+<!-- _class: lead -->
+
+![bg height:900px](./appendix/26.png)
+
+---
+
+## Conclusion
+
+![bg left](./assets/conclusion-snapshot.jpg)
+
+---
+<!-- _class: lead -->
+
+# Questions ❓
